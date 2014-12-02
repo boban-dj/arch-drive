@@ -5,6 +5,7 @@ IFS=$'\n'
 on-error() {
   status=$?
   [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
+  exit $status
 }
 trap on-error INT ERR EXIT
 
