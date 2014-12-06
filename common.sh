@@ -23,10 +23,16 @@ fatal-error() {
 [[ $arch =~ ^i[0-9]86|x86_64$ ]] || fatal-error "This script is intended to be run on x86 32-bit or 64-bit architectures."
 
 install-packages() {
-  local executables=(parted mkfs.fat rsync curl objdump haveged)
-  local packages=(parted dosfstools rsync curl binutils haveged)
+  declare -A packages=(
+    [parted]=parted
+    [mkfs.fat]=dosfstools
+    [rsync]=rsync
+    [curl]=curl
+    [objdump]=binutils
+    [haveged]=haveged
+  )
 
-  if ! which ${executables[@]} >/dev/null; then
+  if ! which ${!packages[@]} >/dev/null; then
     if which apt-get dpkg >/dev/null; then
       read -p "Install required packages? (`echo ${packages[@]}`) [Y/n] "
       [[ $REPLY =~ ^[Yy]*$ ]] && sudo apt-get install -y ${packages[@]} || exit 1
