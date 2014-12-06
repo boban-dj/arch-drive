@@ -12,7 +12,7 @@ if [[ `find $mnt_dir -maxdepth 1 -! -name lost+found -a -! -name boot -a -! -nam
   [[ $REPLY =~ ^[Yy] ]] || exit
 
   mkdir -p /tmp/arch-drive/empty/boot
-  sudo rsync -r --delete --exclude=/lost+found --exclude=/home --info=progress2 /tmp/arch-drive/empty/ $mnt_dir
+  sudo rsync -rv --delete --exclude=/lost+found --exclude=/home /tmp/arch-drive/empty/ $mnt_dir
 fi
 
 run-script root $drive_path $target_arch
