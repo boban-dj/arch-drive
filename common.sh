@@ -18,11 +18,11 @@ fatal-error() {
 }
 
 [[ $OSTYPE == linux-gnu ]] || fatal-error "This script is intended to be run on Linux."
-[[ `uname -m` =~ ^i686|x86_64$ ]] || fatal-error "This script is intended to be run on i686 or x86_64 architectures."
+[[ `uname -m` =~ ^i[0-9]86|x86_64$ ]] || fatal-error "This script is intended to be run on x86 32-bit or 64-bit architectures."
 
 install-packages() {
-  local executables=(parted mkfs.fat rsync curl haveged)
-  local packages=(parted dosfstools rsync curl haveged)
+  local executables=(parted mkfs.fat rsync curl objdump haveged)
+  local packages=(parted dosfstools rsync curl binutils haveged)
 
   if ! which ${executables[@]} >/dev/null; then
     if which apt-get dpkg >/dev/null; then
