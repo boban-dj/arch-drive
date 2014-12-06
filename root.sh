@@ -11,11 +11,11 @@ mirror-url() {
 01-bootstrap() {
   if [[ ! -f /tmp/arch-drive/downloads/bootstrap.tar.gz ]]; then
     iso_url=`mirror-url`/iso/latest
-    bootstrap_filename=`curl $iso_url/ | grep -oP "(?<= href=\")archlinux-bootstrap-[^-]+-$architecture.tar.gz(?=\")"`
+    bootstrap_filename=`curl $iso_url/ | grep -oP "(?<= href=\")archlinux-bootstrap-[^-]+-$(uname -m).tar.gz(?=\")"`
     bootstrap_md5=`curl $iso_url/md5sums.txt | grep -oP "^[^\s]+(?=\s+$bootstrap_filename$)"`
 
     mkdir -p /tmp/arch-drive/downloads
-    [[ -f /tmp/arch-drive/downloads/$bootstrap_filename ]] || curl -o /tmp/arch-drive/downloads/$bootstrap_filename $iso_url/$bootstrap_filename || :
+    [[ -f /tmp/arch-drive/downloads/$bootstrap_filename ]] || curl -v -o /tmp/arch-drive/downloads/$bootstrap_filename $iso_url/$bootstrap_filename || :
     if ! echo "$bootstrap_md5 /tmp/arch-drive/downloads/$bootstrap_filename" | md5sum -c; then
       rm /tmp/arch-drive/downloads/$bootstrap_filename
       exit 1
@@ -81,8 +81,7 @@ EOF
 }
 
 07-packages() {
-  packages=(base)
-  chroot-cmd pacman -S --needed --noconfirm ${packages[@]}
+  chroot-cmd pacman -S --needed --noconfirm base
 }
 
 run-actions
