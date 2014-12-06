@@ -61,7 +61,10 @@ select-drive() {
 
   local host_drive_path=`mounted-drive-path /`
   local drive_names=(`sudo parted -ls | drive-name-parse | grep -v ") $host_drive_path$"`)
-  [[ -n ${drive_names:-} ]] || fatal-error "No drives found."
+  if [[ -z ${drive_names:-} ]]; then
+    [[ ${1:-} != -q ]] || return 0
+    fatal-error "No drives found."
+  fi
 
   echo "Select a target drive:"
   select drive_name in "${drive_names[@]}"; do
