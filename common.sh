@@ -2,6 +2,10 @@
 set -eu -o pipefail
 IFS=$'\n'
 
+args=($@)
+architecture=`arch`
+mnt_dir=/tmp/arch-drive/mnt
+
 on-error() {
   status=$?
   [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
@@ -15,9 +19,7 @@ fatal-error() {
 }
 
 [[ $OSTYPE == linux-gnu ]] || fatal-error "This script is intended to be run on Linux."
-
-args=($@)
-mnt_dir=/tmp/arch-drive/mnt
+[[ $architecture =~ ^i686|x86_64$ ]] || fatal-error "This script is intended to be run on architectures i686 or x86_64."
 
 install-packages() {
   local executables=(parted mkfs.fat rsync curl haveged)
