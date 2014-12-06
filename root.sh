@@ -3,29 +3,39 @@
 
 select-drive
 
+target_arch=${2:-$arch}
+bootstrap_path=/tmp/arch-drive/downloads/bootstrap-$target_arch.tar.gz
+
 mirror-url() {
   local country_code=`curl ipinfo.io/country`
   curl "https://www.archlinux.org/mirrorlist/?country=$country_code&use_mirror_status=on" | grep -oP -m 1 "(?<=^#Server = )http.+?(?=/\\$)"
 }
 
-01-bootstrap() {
-  if [[ ! -f /tmp/arch-drive/downloads/bootstrap.tar.gz ]]; then
-    iso_url=`mirror-url`/iso/latest
-    bootstrap_filename=`curl $iso_url/ | grep -oP "(?<= href=\")archlinux-bootstrap-[^-]+-$(uname -m).tar.gz(?=\")"`
-    bootstrap_md5=`curl $iso_url/md5sums.txt | grep -oP "^[^\s]+(?=\s+$bootstrap_filename$)"`
+01-bootstrap-download() {
+  iso_url=`mirror-url`/iso/latest
+  bootstrap_filename=`curl $iso_url/ | grep -oP "(?<= href=\")archlinux-bootstrap-[^-]+-$target_arch.tar.gz(?=\")"`
+  bootstrap_md5=`curl $iso_url/md5sums.txt | grep -oP "^[^\s]+(?=\s+$bootstrap_filename$)"`
 
-    mkdir -p /tmp/arch-drive/downloads
-    [[ -f /tmp/arch-drive/downloads/$bootstrap_filename ]] || curl -v -o /tmp/arch-drive/downloads/$bootstrap_filename $iso_url/$bootstrap_filename || :
-    if ! echo "$bootstrap_md5 /tmp/arch-drive/downloads/$bootstrap_filename" | md5sum -c; then
-      rm /tmp/arch-drive/downloads/$bootstrap_filename
-      exit 1
+  bootstrap-check-md5() {
+    [[ -f $bootstrap_path ]] || return 0
+
+    if ! echo "$bootstrap_md5 $bootstrap_path" | md5sum -c; then
+      rm $bootstrap_path
+      return 1
     fi
-  fi
+  }
+  bootstrap-check-md5 || :
 
-  sudo tar -vxz -f /tmp/arch-drive/downloads/$bootstrap_filename -C $mnt_dir --exclude=README --strip-components=1
+  mkdir -p /tmp/arch-drive/downloads
+  curl -v -o $bootstrap_path $iso_url/$bootstrap_filename
+  bootstrap-check-md5
 }
 
-02-locale() {
+02-bootstrap-unpack() {
+  sudo tar -vxz -f $bootstrap_path -C $mnt_dir --exclude=README --strip-components=1
+}
+
+03-locale() {
   locale=en_US.UTF-8                                                                                       
   sudo sed -i "0,/^[#]\(${locale//./\\.}\)/s//\1/" $mnt_dir/etc/locale.gen
   LC_ALL= chroot-cmd locale-gen
@@ -33,7 +43,7 @@ mirror-url() {
   echo LANG=$locale | sudo tee $mnt_dir/etc/locale.conf >/dev/null
 }
 
-03-pacman-key() {
+04-pacman-key() {
   if ! pgrep -x haveged >/dev/null; then
     sudo haveged -F &
     haveged_pid=$!
@@ -58,11 +68,11 @@ update-mirror-list() {
   sudo sed -i "s|^#\(Server = ${mirror_url//./\\.}/\)|\1|" $mnt_dir/etc/pacman.d/mirrorlist
 }
 
-04-mirror-list() {
+05-mirror-list() {
   update-mirror-list
 }
 
-05-upgrade() {
+06-upgrade() {
   chroot-cmd pacman -Syu --noconfirm
 
   if [[ -f $mnt_dir/etc/pacman.d/mirrorlist.pacnew ]]; then
@@ -71,7 +81,7 @@ update-mirror-list() {
   fi
 }
 
-06-fstab() {
+07-fstab() {
   boot_uuid=`partition-uuid 1` root_uuid=`partition-uuid 2` home_uuid=`partition-uuid 3`
   sudo tee $mnt_dir/etc/fstab >/dev/null <<EOF
 UUID=$boot_uuid /boot vfat defaults 0 2
@@ -80,7 +90,7 @@ UUID=$home_uuid /home ext4 defaults 0 2
 EOF
 }
 
-07-packages() {
+08-packages() {
   chroot-cmd pacman -S --needed --noconfirm base
 }
 

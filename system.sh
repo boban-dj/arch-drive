@@ -3,6 +3,8 @@
 
 select-drive
 
+target_arch=${2:-}
+
 run-script mount $drive_path
 
 if [[ `find $mnt_dir -maxdepth 1 -! -name lost+found -a -! -name boot -a -! -name home | sed 1d` ]]; then
@@ -13,5 +15,5 @@ if [[ `find $mnt_dir -maxdepth 1 -! -name lost+found -a -! -name boot -a -! -nam
   sudo rsync -r --delete --exclude=/lost+found --exclude=/home --info=progress2 /tmp/arch-drive/empty/ $mnt_dir
 fi
 
-run-script root $drive_path
+run-script root $drive_path $target_arch
 run-script boot $drive_path
