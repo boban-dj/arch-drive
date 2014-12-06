@@ -3,6 +3,7 @@ set -eu -o pipefail
 IFS=$'\n'
 
 args=($@)
+arch=`uname -m`
 mnt_dir=/tmp/arch-drive/mnt
 
 on-error() {
@@ -18,7 +19,7 @@ fatal-error() {
 }
 
 [[ $OSTYPE == linux-gnu ]] || fatal-error "This script is intended to be run on Linux."
-[[ `uname -m` =~ ^i[0-9]86|x86_64$ ]] || fatal-error "This script is intended to be run on x86 32-bit or 64-bit architectures."
+[[ $arch =~ ^i[0-9]86|x86_64$ ]] || fatal-error "This script is intended to be run on x86 32-bit or 64-bit architectures."
 
 install-packages() {
   local executables=(parted mkfs.fat rsync curl objdump haveged)
@@ -107,7 +108,8 @@ run-actions() {
 }
 
 chroot-cmd() {
-  sudo $mnt_dir/bin/arch-chroot $mnt_dir "$@"
+  [[ $arch =~ ^i[0-9]86$ ]] || objdump -f $mnt_dir/bin/chroot | grep -q "\-x86-64" || linux_cmd=linux32
+  sudo ${linux_cmd:-} $mnt_dir/bin/arch-chroot $mnt_dir "$@"
 }
 
 chroot-bash() {
