@@ -38,7 +38,7 @@ This project provides Vagrantfile that describes environment suitable for runnin
 
 ## Create Arch Drive with scripts
 
-1. Ensure you are running Linux and have established Internet connection. Note that the installable system will have the same architecture as the host system. So if you would like to create the system with i686 (or x86\_64) architecture, you should use the host system with i686 (or x86\_64) one.
+1. Ensure you are running Linux and have established Internet connection. Note that the installable system will have the same architecture as the host system. So if you would like to create the system with x86 32-bit (or 64-bit) architecture, you should use the host system with x86 32-bit (or 64-bit) one.
 2. Download and unpack files from this repository to some place. Or you could clone it from terminal using `git clone git@bitbucket.org:sgtpep/arch-drive.git`.
 3. Open the terminal emulator or virtual terminal.
 4. Run `cd /path/to/scripts`, where `/path/to/scripts` is the path to a directory that contains downloaded scripts.
