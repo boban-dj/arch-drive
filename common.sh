@@ -7,7 +7,7 @@ arch=`uname -m`
 mnt_dir=/tmp/arch-drive/mnt
 
 on-error() {
-  status=$?
+  local status=$?
   trap - INT ERR EXIT
   [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
   exit $status
@@ -50,7 +50,7 @@ install-packages
 run-script() {
   local script_name=$1
   shift
-  bash -$- ${BASH_SOURCE[0]%/*}/$script_name.sh $@
+  bash -$- "$(dirname `readlink -f "${BASH_SOURCE[0]}"`)"/$script_name.sh $@
 }
 
 drive-name-parse() {
@@ -58,7 +58,7 @@ drive-name-parse() {
 }
 
 mounted-drive-path() {
-  mounted_partition_path=`cat /etc/mtab | grep "^[^ ]* $1 " | cut -d ' ' -f 1 || :`
+  local mounted_partition_path=`cat /etc/mtab | grep "^[^ ]* $1 " | cut -d ' ' -f 1 || :`
   echo $mounted_partition_path | sed "s/p\?[0-9]$//"
 }
 
@@ -100,22 +100,21 @@ partition-uuid() {
 }
 
 run-actions() {
-  script_name=${BASH_SOURCE[1]##*/}
-  result_dir=$mnt_dir/var/lib/arch-drive/${script_name%.*}
+  local script_name=${BASH_SOURCE[1]##*/}
+  local result_dir=$mnt_dir/var/lib/arch-drive/${script_name%.*}
   sudo mkdir -p $result_dir
 
-  action_names=(`declare -F | grep -oP "(?<=^declare -f )[0-9]+-.+"`)
+  local action_names=(`cat "${BASH_SOURCE[1]}" | grep -oP "(?<=^do-).+?(?=\(\))"`)
   for action_name in ${action_names[@]}; do
-    result_path=$result_dir/${action_name#[0-9]*-}
-    [[ ! -f $result_path ]] || continue
+    [[ ! -f $result_dir/$action_name ]] || continue
 
     $action_name
-    sudo touch $result_path
+    sudo touch $result_dir/$action_name
   done
 }
 
 chroot-cmd() {
-  [[ $arch =~ ^i[0-9]86$ ]] || objdump -f $mnt_dir/bin/chroot | grep -q "\-x86-64" || linux_cmd=linux32
+  [[ $arch =~ ^i[0-9]86$ ]] || objdump -f $mnt_dir/bin/chroot | grep -q "\-x86-64" || local linux_cmd=linux32
   sudo ${linux_cmd:-} $mnt_dir/bin/arch-chroot $mnt_dir "$@"
 }
 
