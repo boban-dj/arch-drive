@@ -92,13 +92,17 @@ partition-uuid() {
 }
 
 run-actions() {
+  script_name=${BASH_SOURCE[1]##*/}
+  result_dir=$mnt_dir/var/lib/arch-drive/${script_name%.*}
+  sudo mkdir -p $result_dir
+
   action_names=(`declare -F | grep -oP "(?<=^declare -f )[0-9]+-.+"`)
-  sudo mkdir -p $mnt_dir/var/lib/arch-drive
   for action_name in ${action_names[@]}; do
-    [[ ! -f $mnt_dir/var/lib/arch-drive/${action_name#do-} ]] || continue
+    result_path=$result_dir/${action_name#[0-9]*-}
+    [[ ! -f $result_path ]] || continue
 
     $action_name
-    sudo touch $mnt_dir/var/lib/arch-drive/${action_name#do-}
+    sudo touch $result_path
   done
 }
 
