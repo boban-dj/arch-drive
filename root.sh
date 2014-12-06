@@ -15,14 +15,14 @@ mirror-url() {
     bootstrap_md5=`curl $iso_url/md5sums.txt | grep -oP "^[^\s]+(?=\s+$bootstrap_filename$)"`
 
     mkdir -p /tmp/arch-drive/downloads
-    [[ -f /tmp/arch-drive/downloads/bootstrap.tar.gz ]] || curl -o /tmp/arch-drive/downloads/bootstrap.tar.gz $iso_url/$bootstrap_filename || :
-    if ! echo "$bootstrap_md5 /tmp/arch-drive/downloads/bootstrap.tar.gz" | md5sum -c; then
-      rm /tmp/arch-drive/downloads/bootstrap.tar.gz
+    [[ -f /tmp/arch-drive/downloads/$bootstrap_filename ]] || curl -o /tmp/arch-drive/downloads/$bootstrap_filename $iso_url/$bootstrap_filename || :
+    if ! echo "$bootstrap_md5 /tmp/arch-drive/downloads/$bootstrap_filename" | md5sum -c; then
+      rm /tmp/arch-drive/downloads/$bootstrap_filename
       exit 1
     fi
   fi
 
-  sudo tar -vxz -f /tmp/arch-drive/downloads/bootstrap.tar.gz -C $mnt_dir --exclude=README --strip-components=1
+  sudo tar -vxz -f /tmp/arch-drive/downloads/$bootstrap_filename -C $mnt_dir --exclude=README --strip-components=1
 }
 
 02-locale() {
