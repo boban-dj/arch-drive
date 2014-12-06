@@ -9,7 +9,7 @@ read -p "Format drive \"`drive-name`\"? All data on it will be destroyed, includ
 run-script umount $drive_path
 
 disk_size=`sudo parted -s $drive_path unit MB print devices | grep -oP "(?<=^$drive_path \()\d+"`
-(( $disk_size > 2000 )) || fatal-error "The disk size is less than minimum required size of 2GB."
+(( $disk_size >= 2000 )) || fatal-error "The disk size is less than minimum required size of 2GB."
 
 boot_size=150
 root_size=$[disk_size / 3]
