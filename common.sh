@@ -27,8 +27,10 @@ install-packages() {
     if which apt-get dpkg >/dev/null; then
       read -p "Install required packages? (`echo ${packages[@]}`) [Y/n] "
       [[ $REPLY =~ ^[Yy]*$ ]] && sudo apt-get install -y ${packages[@]} || exit 1
+      echo
     elif which pacman >/dev/null; then
       sudo pacman -S --needed ${packages[@]}
+      echo
     else
       fatal-error "Please install following packages: ${packages[@]}."
     fi
