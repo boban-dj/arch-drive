@@ -45,7 +45,7 @@ This project provides Vagrantfile that describes environment suitable for runnin
 5. Insert your USB drive.
 7. If it is a first time you are installing Arch Drive on this drive, run `./format.sh` to format it. Note that this action will destroy all data on it, including your home directory partition! If you would like to backup it first, run `./backup.sh`. After formatting your drive with `./format.sh` you could restore the contents of home directory partition by running `./restore.sh`.
 8. To install the operating system on formatted drive run `./system.sh`.
-9. You could unmount your drive after installation by running `./umount.sh`, or you could just reboot the host system.
+9. You can unmount your drive after installation by running `./umount.sh`, or it will be unmounted on next poweroff of the host system.
 10. Insert your drive with newly installed system to any powered off computer. Power it on and call the boot menu by pressing a shortcut key that is specific to this computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is an Option/Alt key. Select your flash drive from menu and see how it boots up.
 
 If you encounter any problems, feel free to report an [issue](https://bitbucket.org/sgtpep/arch-drive/issues).
