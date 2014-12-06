@@ -26,9 +26,11 @@ do-bootstrap-download() {
   }
   bootstrap-check-md5 || :
 
-  mkdir -p /tmp/arch-drive/downloads
-  curl -v -o $bootstrap_path $iso_url/$bootstrap_filename
-  bootstrap-check-md5
+  if [[ ! -f $bootstrap_path ]]; then
+    mkdir -p /tmp/arch-drive/downloads
+    curl -v -o $bootstrap_path $iso_url/$bootstrap_filename
+    bootstrap-check-md5
+  fi
 }
 
 do-bootstrap-unpack() {
