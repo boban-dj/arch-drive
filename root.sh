@@ -11,7 +11,7 @@ mirror-url() {
 01-bootstrap() {
   if [[ ! -f /tmp/arch-drive/downloads/bootstrap.tar.gz ]]; then
     iso_url=`mirror-url`/iso/latest
-    bootstrap_filename=`curl $iso_url/ | grep -oP "(?<= href=\")archlinux-bootstrap-[^-]+-$(arch).tar.gz(?=\")"`
+    bootstrap_filename=`curl $iso_url/ | grep -oP "(?<= href=\")archlinux-bootstrap-[^-]+-$architecture.tar.gz(?=\")"`
     bootstrap_md5=`curl $iso_url/md5sums.txt | grep -oP "^[^\s]+(?=\s+$bootstrap_filename$)"`
 
     mkdir -p /tmp/arch-drive/downloads
