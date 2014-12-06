@@ -8,6 +8,7 @@ mnt_dir=/tmp/arch-drive/mnt
 
 on-error() {
   status=$?
+  trap - INT ERR EXIT
   [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
   exit $status
 }
