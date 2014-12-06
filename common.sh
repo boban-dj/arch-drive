@@ -25,7 +25,7 @@ install-packages() {
 
   if ! which ${executables[@]} >/dev/null; then
     if which apt-get dpkg >/dev/null; then
-      read -p "Install packages: `echo ${packages[@]}`? [Y/n] "
+      read -p "Install required packages? (`echo ${packages[@]}`) [Y/n] "
       [[ $REPLY =~ ^[Yy]*$ ]] && sudo apt-get install -y ${packages[@]} || exit 1
     elif which pacman >/dev/null; then
       sudo pacman -S --needed ${packages[@]}
