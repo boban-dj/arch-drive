@@ -4,6 +4,7 @@ IFS=$'\n'
 
 args=($@)
 arch=`uname -m`
+script_dir=$(dirname `readlink -f "${BASH_SOURCE[0]}"`)
 mnt_dir=/tmp/arch-drive/mnt
 
 on-error() {
@@ -50,7 +51,7 @@ install-packages
 run-script() {
   local script_name=$1
   shift
-  bash -$- "$(dirname `readlink -f "${BASH_SOURCE[0]}"`)"/$script_name.sh $@
+  bash -$- "$script_dir"/$script_name.sh $@
 }
 
 drive-name-parse() {
