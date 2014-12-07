@@ -55,7 +55,7 @@ while :; do
     "Backup home partition"
     "Format drive"
     "Restore home partition"
-    "Setup system"
+    "Setup base system"
     Quit
   )
 
@@ -73,7 +73,7 @@ while :; do
 
       "Backup home partition")
         echo
-        echo TODO
+        run-script backup $drive_path
         ;;
 
       "Format drive")
@@ -81,14 +81,14 @@ while :; do
         run-script format $drive_path ${settings[1-journaling]}
         ;;
       
-      "Setup system")
+      "Setup base system")
         echo
         run-script system $drive_path ${settings[2-architecture]}
         ;;
 
       "Restore home partition")
         echo
-        echo TODO
+        run-script restore $drive_path
         ;;
 
       Quit)
