@@ -20,10 +20,8 @@ select-settings() {
     done
     options+=(Back)
 
-    echo "Select an option to change:"
+    select-title "Select an option to change:"
     select option in "${options[@]}"; do
-      echo
-
       case $option in
         Journaling:*)
           settings[1-journaling]=`[[ ${settings[1-journaling]} == off ]] && echo on || echo off`
@@ -58,13 +56,11 @@ while :; do
     "Format drive"
     "Restore home partition"
     "Setup system"
-    "Quit"
+    Quit
   )
 
-  echo "Select an action:"
+  select-title "Select an action:"
   select option in "${options[@]}"; do
-    [[ $option == Quit ]] || echo
-
     case $option in
       "Selected drive:"*)
         select-drive -r
@@ -74,7 +70,22 @@ while :; do
       Settings:*)
         select-settings
         ;;
+
+      "Backup home partition")
+        echo
+        echo TODO
+        ;;
+
+      "Format drive")
+        echo
+        run-script format $drive_path ${settings[1-journaling]}
+        ;;
       
+      "Restore home partition")
+        echo
+        echo TODO
+        ;;
+
       Quit)
         exit
         ;;
