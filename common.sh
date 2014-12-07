@@ -76,7 +76,8 @@ select-drive() {
   fi
 
   echo "Select a target drive:"
-  select drive_name in "${drive_names[@]}"; do
+  select drive_name in "${drive_names[@]}" Quit; do
+    [[ $drive_name != Quit ]] || exit 0
     [[ -z $drive_name ]] || break
   done
 
