@@ -83,7 +83,7 @@ while :; do
       
       "Setup system")
         echo
-        run-script setup $drive_path ${settings[2-architecture]}
+        run-script system $drive_path ${settings[2-architecture]}
         ;;
 
       "Restore home partition")
