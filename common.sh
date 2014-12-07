@@ -4,16 +4,8 @@ IFS=$'\n'
 
 args=($@)
 arch=`uname -m`
-script_dir=$(dirname `readlink -f "${BASH_SOURCE[0]}"`)
+script_dir=`dirname "${BASH_SOURCE[0]}"`
 mnt_dir=/tmp/arch-drive/mnt
-
-on-error() {
-  local status=$?
-  [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
-  exit $status
-}
-[[ -n ${HAS_ERROR_TRAP:-} ]] || trap on-error INT ERR EXIT
-export HAS_ERROR_TRAP=1
 
 fatal-error() {
   echo $1 >&2
@@ -22,6 +14,14 @@ fatal-error() {
 
 [[ $OSTYPE == linux-gnu ]] || fatal-error "This script is intended to be run on Linux."
 [[ $arch =~ ^i[0-9]86|x86_64$ ]] || fatal-error "This script is intended to be run on x86 32-bit or 64-bit architectures."
+
+on-error() {
+  local status=$?
+  [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
+  exit $status
+}
+[[ -n ${HAS_ERROR_TRAP:-} ]] || trap on-error INT ERR EXIT
+export HAS_ERROR_TRAP=1
 
 install-packages() {
   declare -A packages=(
