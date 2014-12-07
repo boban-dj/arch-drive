@@ -82,6 +82,8 @@ select-drive() {
   echo "Select a target drive:"
   options=("${options[@]}" `[[ -z ${is_reset:-} ]] && echo Quit || echo Back`)
   select option in "${options[@]}"; do
+    [[ $option == Quit ]] || echo
+
     case $option in
       Quit)
         exit
