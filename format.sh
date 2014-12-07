@@ -26,14 +26,19 @@ sudo parted -s -a optimal $drive_path \
   mkpart primary ext4 ${boot_size}MB ${root_size}MB \
   mkpart primary ext4 ${root_size}MB 100%
 
-sudo mkfs.fat -n boot -F 32 `partition-path 1`
-sudo mkfs.ext4 -L root `partition-path 2`
-sudo mkfs.ext4 -L home `partition-path 3`
+journaling=${2:-on}
+[[ $journaling == on ]] || ext4_options="-O ^has_journal"
 
-disk_bus=`udevadm info --query=all --name=${drive_path##*/} | grep -oP "(?<= ID_BUS=).+"`
-if [[ $disk_bus =~ ^usb|memstick$ ]]; then
-  sudo tune2fs -o journal_data_writeback `partition-path 2`
-  sudo tune2fs -o journal_data_writeback `partition-path 3`
+sudo mkfs.fat -n boot -F 32 `partition-path 1`
+sudo mkfs.ext4 -L root ${ext4_options:-} `partition-path 2`
+sudo mkfs.ext4 -L home ${ext4_options:-} `partition-path 3`
+
+if [[ $journaling == on ]]; then
+  disk_bus=`udevadm info --query=all --name=${drive_path##*/} | grep -oP "(?<= ID_BUS=).+"`
+  if [[ $disk_bus =~ ^usb|memstick$ ]]; then
+    sudo tune2fs -o journal_data_writeback `partition-path 2`
+    sudo tune2fs -o journal_data_writeback `partition-path 3`
+  fi
 fi
 
 run-script mount $drive_path
