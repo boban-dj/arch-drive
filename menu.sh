@@ -50,8 +50,8 @@ while :; do
   settings_text=${settings_text#, }
 
   options=(
-    "Selected drive: $drive_name"
-    "Settings: $settings_text"
+    "Change target drive: $drive_name"
+    "Change settings: $settings_text"
     "Backup home partition"
     "Format drive"
     "Restore home partition"
