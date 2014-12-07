@@ -14,7 +14,7 @@ while :; do
   settings_line=`printf ", %s" "${settings[@]}"`
   settings_line=${settings_line:2}
 
-  menu_items=(
+  options=(
     "Selected drive: $drive_name"
     "Settings: $settings_line"
     "Backup home partition"
@@ -25,10 +25,10 @@ while :; do
   )
 
   echo "Select action:"
-  select menu_item in "${menu_items[@]}"; do
-    [[ $menu_item == Quit ]] || echo
+  select option in "${options[@]}"; do
+    [[ $option == Quit ]] || echo
 
-    case $menu_item in
+    case $option in
       "Selected drive:"*)
         select-drive -r
         detect-drive-name
