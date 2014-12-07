@@ -63,6 +63,12 @@ mounted-drive-path() {
   echo $mounted_partition_path | sed "s/p\?[0-9]$//"
 }
 
+select-title() {
+  [[ -z ${is_first_select_title:-} ]] || echo
+  is_first_select_title=1
+  echo $1
+}
+
 select-drive() {
   [[ ${1:-} != -r ]] || local is_reset=1
   [[ ${1:-} != -q ]] || local is_quiet=1
@@ -80,10 +86,8 @@ select-drive() {
   fi
   options+=(`[[ -z ${is_reset:-} ]] && echo Quit || echo Back`)
 
-  echo "Select a target drive:"
+  select-title "Select a target drive:"
   select option in "${options[@]}"; do
-    [[ $option == Quit ]] || echo
-
     case $option in
       Quit)
         exit
