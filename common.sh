@@ -64,26 +64,38 @@ mounted-drive-path() {
 }
 
 select-drive() {
-  if [[ -n ${args[0]:-} && ${1:-} != -r ]]; then
+  [[ ${1:-} != -r ]] || local is_reset=1
+  [[ ${1:-} != -q ]] || local is_quiet=1
+
+  if [[ -n ${args[0]:-} && -z ${is_reset:-} ]]; then
     drive_path=${args[0]}
     return
   fi
 
   local host_drive_path=`mounted-drive-path /`
-  local drive_names=(`sudo parted -ls | parse-drive-name | grep -v ") $host_drive_path$"`)
-  if [[ -z ${drive_names:-} ]]; then
-    [[ ${1:-} != -q ]] || return 0
+  local options=(`sudo parted -ls | parse-drive-name | grep -v ") $host_drive_path$"`)
+  if [[ -z ${options:-} ]]; then
+    [[ -z ${is_quiet:-} ]] || return 0
     fatal-error "No drives were found."
   fi
 
   echo "Select a target drive:"
-  select drive_name in "${drive_names[@]}" Quit; do
-    [[ $drive_name != Quit ]] || exit 0
-    [[ -z $drive_name ]] || break
+  options=("${options[@]}" `[[ -z ${is_reset:-} ]] && echo Quit || echo Back`)
+  select option in "${options[@]}"; do
+    case $option in
+      Quit)
+        exit
+        ;;
+      Back)
+        return
+        ;;
+      *)
+        break
+    esac
   done
 
-  drive_path=${drive_name##*) }
-  unset drive_name
+  drive_path=${option##*) }
+  unset option
 }
 
 detect-drive-name() {
