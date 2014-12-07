@@ -9,7 +9,6 @@ mnt_dir=/tmp/arch-drive/mnt
 
 on-error() {
   local status=$?
-  trap - INT ERR EXIT
   [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
   exit $status
 }
@@ -64,7 +63,7 @@ mounted-drive-path() {
 }
 
 select-drive() {
-  if [[ -n ${args[0]:-} ]]; then
+  if [[ -n ${args[0]:-} && ${1:-} != -r ]]; then
     drive_path=${args[0]}
     return
   fi
