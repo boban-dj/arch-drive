@@ -12,7 +12,8 @@ on-error() {
   [[ $status == 0 ]] || echo -e "\e[4mError code: $status\e[m" >&2
   exit $status
 }
-trap on-error INT ERR EXIT
+[[ -n ${HAS_ERROR_TRAP:-} ]] || trap on-error INT ERR EXIT
+export HAS_ERROR_TRAP=1
 
 fatal-error() {
   echo $1 >&2
