@@ -6,4 +6,4 @@ if [[ $0 == /dev/fd/* ]]; then
   exec bash -$- /tmp/arch-drive/scripts/run.sh
 fi
 
-bash -$- "$(dirname `readlink -f "${BASH_SOURCE[0]}"`)"/menu.sh
+bash -$- "`dirname "${BASH_SOURCE[0]}"`"/menu.sh

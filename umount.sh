@@ -1,5 +1,5 @@
 #!/bin/bash
-. "$(dirname `readlink -f "${BASH_SOURCE[0]}"`)"/common.sh
+. "`dirname "${BASH_SOURCE[0]}"`"/common.sh
 
 select-drive -q
 
