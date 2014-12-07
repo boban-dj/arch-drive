@@ -73,7 +73,7 @@ select-drive() {
   local drive_names=(`sudo parted -ls | drive-name-parse | grep -v ") $host_drive_path$"`)
   if [[ -z ${drive_names:-} ]]; then
     [[ ${1:-} != -q ]] || return 0
-    fatal-error "No drives found."
+    fatal-error "No drives were found."
   fi
 
   echo "Select a target drive:"
