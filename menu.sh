@@ -81,6 +81,11 @@ while :; do
         run-script format $drive_path ${settings[1-journaling]}
         ;;
       
+      "Setup system")
+        echo
+        run-script setup $drive_path ${settings[2-architecture]}
+        ;;
+
       "Restore home partition")
         echo
         echo TODO
