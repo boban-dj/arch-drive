@@ -54,7 +54,7 @@ run-script() {
   bash -$- "$script_dir"/$script_name.sh $@
 }
 
-drive-name-parse() {
+parse-drive-name() {
   grep "^Model: \|^Disk /" | sed "/^Model: .*/N;s|^Model: \(.*\) (.*)\nDisk \(/.*\): \(.*\)|\1 (\3) \2|"
 }
 
@@ -70,7 +70,7 @@ select-drive() {
   fi
 
   local host_drive_path=`mounted-drive-path /`
-  local drive_names=(`sudo parted -ls | drive-name-parse | grep -v ") $host_drive_path$"`)
+  local drive_names=(`sudo parted -ls | parse-drive-name | grep -v ") $host_drive_path$"`)
   if [[ -z ${drive_names:-} ]]; then
     [[ ${1:-} != -q ]] || return 0
     fatal-error "No drives were found."
@@ -85,8 +85,8 @@ select-drive() {
   unset drive_name
 }
 
-drive-name() {
-  sudo parted -s $drive_path print 2>/dev/null | drive-name-parse || :
+detect-drive-name() {
+  drive_name=`sudo parted -s $drive_path print 2>/dev/null | parse-drive-name`
 }
 
 partition-path() {

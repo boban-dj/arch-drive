@@ -8,7 +8,8 @@ target_arch=${2:-}
 run-script mount $drive_path
 
 if [[ `find $mnt_dir -maxdepth 1 -! -name lost+found -a -! -name boot -a -! -name home | sed 1d` ]]; then
-  read -p "Install system on \"`drive-name`\"? Existing system will be destroyed! [y/N] "
+  detect-drive-name
+  read -p "Install system on \"$drive_name\"? Existing system will be destroyed! [y/N] "
   [[ $REPLY =~ ^[Yy] ]] || exit
 
   mkdir -p /tmp/arch-drive/empty/boot
