@@ -78,9 +78,9 @@ select-drive() {
     [[ -z ${is_quiet:-} ]] || return 0
     fatal-error "No drives were found."
   fi
+  options+=(`[[ -z ${is_reset:-} ]] && echo Quit || echo Back`)
 
   echo "Select a target drive:"
-  options=("${options[@]}" `[[ -z ${is_reset:-} ]] && echo Quit || echo Back`)
   select option in "${options[@]}"; do
     [[ $option == Quit ]] || echo
 
@@ -88,12 +88,13 @@ select-drive() {
       Quit)
         exit
         ;;
+
       Back)
         return
         ;;
-      *)
-        break
     esac
+
+    break
   done
 
   drive_path=${option##*) }
