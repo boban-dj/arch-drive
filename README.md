@@ -50,3 +50,9 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 10. Insert your drive with newly installed system to any computer. Power it on (or reboot) and call the boot menu by pressing a shortcut key that is specific to this computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is Option/Alt key. Select your flash drive from menu and see how it boots up.
 
 If you encounter any problems, feel free to report an [issue](https://bitbucket.org/sgtpep/arch-drive/issues).
+
+## License and copyright
+
+The project is released under the General Public License (GPL), version 3.
+
+Copyright © 2014, Danil Semelenov.
