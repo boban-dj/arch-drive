@@ -5,7 +5,7 @@ select-drive
 
 detect-drive-name
 read -p "Format drive \"$drive_name\"? All data on it will be destroyed, including home partition! [y/N] "
-[[ $REPLY =~ ^[Yy] ]] || exit
+[[ $REPLY =~ ^[Yy] ]] || exit 0
 
 run-script umount $drive_path
 
