@@ -24,7 +24,7 @@ while :; do
     "Quit"
   )
 
-  echo "Select action:"
+  echo "Select an action:"
   select option in "${options[@]}"; do
     [[ $option == Quit ]] || echo
 
