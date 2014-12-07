@@ -92,6 +92,7 @@ while :; do
         ;;
 
       Quit)
+        run-script umount $drive_path
         exit
         ;;
     esac
