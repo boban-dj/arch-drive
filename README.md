@@ -42,8 +42,10 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 4. Run `bash <(curl https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`, if your system has `curl` installed. Or run `bash <(wget -O - https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`, if your system has `wget` installed. Of course, you also could manually download or clone this repository and run `./run.sh` from its directory.
 5. Select your drive from menu. You can select another drive later using menu option *1) Change target drive*.
 6. You could change some system creation settings using menu option *2) Change settings*.
+
   1. Journaling could be disabled during formatting. It will reduce wearing of flash drive memory and speed up the writing to it at the cost of the risk to lose some data on unexpected poweroff.
   2. If you are running on x86\_64 architecture, you could change the target system architecture to be x86\_64 or i686.
+
 7. If it is a first time you are installing the system on this drive, select *4) Format drive* to format it. Please note that this action will destroy all data on this drive, including your home directory partition! If you would like to backup it first, select *3) Backup home partition*. After formatting has finished, you could restore the contents of your home directory partition using option *5) Restore home partition*.
 8. To setup the operating system on formatted drive select *6) Setup system*.
 9. Select *7) Quit* for unmounting the drive and quitting the menu.
