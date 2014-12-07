@@ -5,18 +5,55 @@ select-drive
 detect-drive-name
 
 declare -A settings=(
-  [journaling]=on
-  [architecture]=$arch
+  [1-journaling]=on
+  [2-architecture]=$arch
 )
 
+select-settings() {
+  while :; do
+    local options=()
+    for setting_name in "${!settings[@]}"; do
+      [[ $setting_name != 2-architecture || $arch == x86_64 ]] || continue
+
+      option_setting_name=${setting_name#[0-9]-}
+      options+=("${option_setting_name^}: ${settings[$setting_name]}")
+    done
+    options+=(Back)
+
+    echo "Select an option to change:"
+    select option in "${options[@]}"; do
+      echo
+
+      case $option in
+        Journaling:*)
+          settings[1-journaling]=`[[ ${settings[1-journaling]} == off ]] && echo on || echo off`
+          ;;
+
+        Architecture:*)
+          settings[2-architecture]=`[[ ${settings[2-architecture]} == x86_64 ]] && echo i686 || echo x86_64`
+          ;;
+
+        Back)
+          return
+          ;;
+      esac
+
+      break
+    done
+  done
+}
+
 while :; do
-  # TODO
-  settings_line=`printf ", %s" "${settings[@]}"`
-  settings_line=${settings_line:2}
+  settings_text=()
+  for setting_name in "${!settings[@]}"; do
+    settings_text+=("${setting_name#[0-9]-}: ${settings[$setting_name]}")
+  done
+  settings_text=`printf ", %s" "${settings_text[@]}"`
+  settings_text=${settings_text#, }
 
   options=(
     "Selected drive: $drive_name"
-    "Settings: $settings_line"
+    "Settings: $settings_text"
     "Backup home partition"
     "Format drive"
     "Restore home partition"
@@ -32,11 +69,17 @@ while :; do
       "Selected drive:"*)
         select-drive -r
         detect-drive-name
-        break
         ;;
+
+      Settings:*)
+        select-settings
+        ;;
+      
       Quit)
         exit
         ;;
     esac
+
+    break
   done
 done
