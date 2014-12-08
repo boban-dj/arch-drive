@@ -129,7 +129,7 @@ run-actions() {
   for action_name in ${action_names[@]}; do
     [[ ! -f $result_dir/$action_name ]] || continue
 
-    do-$action_name
+    \do-$action_name
     sudo touch $result_dir/$action_name
   done
 }
