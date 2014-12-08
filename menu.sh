@@ -62,12 +62,12 @@ while :; do
   select-title "Select an action:"
   select option in "${options[@]}"; do
     case $option in
-      "Selected drive:"*)
+      "Change target drive:"*)
         select-drive -r
         detect-drive-name
         ;;
 
-      Settings:*)
+      "Change settings:"*)
         select-settings
         ;;
 
@@ -81,14 +81,14 @@ while :; do
         run-script format $drive_path ${settings[1-journaling]}
         ;;
       
-      "Setup base system")
-        echo
-        run-script system $drive_path ${settings[2-architecture]}
-        ;;
-
       "Restore home partition")
         echo
         run-script restore $drive_path
+        ;;
+
+      "Setup base system")
+        echo
+        run-script system $drive_path ${settings[2-architecture]}
         ;;
 
       Quit)
