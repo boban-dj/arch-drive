@@ -3,15 +3,15 @@
 
 select-drive
 
-do-packages() {
+do-install-packages() {
   chroot-cmd pacman -S --needed --noconfirm syslinux
 }
 
-do-syslinux-install() {
+do-install-syslinux() {
   chroot-cmd bash `[[ ! $- =~ x ]] || echo -x` syslinux-install_update -im
 }
 
-do-syslinux-config() {
+do-configure-syslinux() {
   sudo sed -i "s/^\(TIMEOUT\) .*/\1 10/" $mnt_dir/boot/syslinux/syslinux.cfg                                   
   root_uuid=`partition-uuid 2`
   sudo sed -i "s/^\(\s*APPEND root\)=[^ ]*/\1=UUID=$root_uuid/" $mnt_dir/boot/syslinux/syslinux.cfg
