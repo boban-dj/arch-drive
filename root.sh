@@ -65,9 +65,13 @@ do-setup-pacman-keys() {
 EOF
 }
 
-do-update-mirror-list() {
+update-mirror-list() {
   local mirror_url=`mirror-url`
   sudo sed -i "s|^#\(Server = ${mirror_url//./\\.}/\)|\1|" $mnt_dir/etc/pacman.d/mirrorlist
+}
+
+do-update-mirror-list() {
+  update-mirror-list
 }
 
 do-upgrade-packages() {
@@ -75,7 +79,7 @@ do-upgrade-packages() {
 
   if [[ -f $mnt_dir/etc/pacman.d/mirrorlist.pacnew ]]; then
     sudo mv $mnt_dir/etc/pacman.d/mirrorlist{.pacnew,}
-    \do-update-mirror-list
+    update-mirror-list
   fi
 }
 
