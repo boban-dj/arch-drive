@@ -4,7 +4,7 @@
 select-drive
 
 do-install-packages() {
-  chroot-cmd pacman -S --needed --noconfirm syslinux
+  chroot-cmd pacman -S --needed --noconfirm syslinux prebootloader gummiboot
 }
 
 do-install-syslinux() {
