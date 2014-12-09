@@ -32,7 +32,7 @@ do-copy-efi-applications() {
 }
 
 do-configure-gummiboot() {
-  sudo mkdir -p $mnt_dir/boot/loader
+  sudo mkdir -p $mnt_dir/boot/loader/entries
 
   sudo tee $mnt_dir/boot/loader/loader.conf >/dev/null <<EOF
 timeout 1
