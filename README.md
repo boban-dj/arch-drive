@@ -32,7 +32,7 @@ Boot the system from optical disk or USB drive. Establish an Internet connection
 
 If you are familiar with Vagrant software, you could use it for creating USB drive from any operating system it supports. This repository provides the Vagrantfile that describes environment that is suitable for running this tool.
 
-To use it, you need to download and install VirtualBox, VirtualBox Oracle VM VirtualBox Extension Pack and Vagrant itself. Please note that VirtualBox does not have support for USB 3.0 currently. In that case you could try to connect your drive using USB 2.0 port or external hub. Also note that provided Vagrant environment is configured to catch all host USB devices during runtime.
+To use it, you need to download and install VirtualBox, VirtualBox Oracle VM VirtualBox Extension Pack and Vagrant itself. Please note that VirtualBox does not have support for USB 3.0 currently. In that case you could try to connect your drive using USB 2.0 port or external hub. Also note that provided Vagrant environment is configured to grab all newly connected USB devices during runtime.
 
 ## Create Arch Drive with scripts
 
