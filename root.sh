@@ -96,4 +96,11 @@ do-install-packages() {
   chroot-cmd pacman -S --needed --noconfirm base
 }
 
+do-make-initramfs() {
+  mkinitcpio_hooks=(base udev modconf block filesystems keyboard fsck)
+  sudo sed -i "s/^\(HOOKS\)=.*/\1=\"`echo ${mkinitcpio_hooks[@]}`\"/" $mnt_dir/etc/mkinitcpio.conf
+
+  chroot-cmd mkinitcpio -p linux
+}
+
 run-actions
