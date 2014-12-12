@@ -11,4 +11,4 @@ if [[ ! `find $mnt_dir/home -maxdepth 1 -! -name lost+found | sed 1d` ]]; then
 fi
 
 mkdir -p ~/Downloads/arch-drive-home
-sudo rsync -a --delete --exclude=/lost+found --info=progress2 $mnt_dir/home/ ~/Downloads/arch-drive-home
+sudo rsync -a -f ": /.rsync-filter" --delete --exclude=/lost+found --info=progress2 $mnt_dir/home/ ~/Downloads/arch-drive-home
