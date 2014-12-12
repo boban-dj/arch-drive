@@ -16,8 +16,8 @@ The aim of this project is to provide convenient tool for vanilla Arch Linux ins
 
 - Filesystem journaling could be disabled during format.
 - Allows to create the system with i686 architecture from system with x86\_64 one.
-- Uses Syslinux booloader for booting on BIOS systems
-- Uses gummiboot booting for booting on UEFI systems.
+- Uses Syslinux bootloader for booting from BIOS systems
+- Uses gummiboot bootloader for booting from UEFI systems.
 - The pre-bootloader is installed for booting on systems with Secure Boot.
 - The code is separated to scripts, which could be used directly.
 - The Vagrantfile is provided for cross-platform usage.
