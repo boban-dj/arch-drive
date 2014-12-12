@@ -84,7 +84,7 @@ The only user on system is root without a password. You could change it by runni
 
 Run command `ip link` to show the available network interfaces. If you see eth0, you could connect Ethernet cable to your computer and wait few seconds until connection will be autoconfigured. If you see wlan0, your computer has compatible WiFi adapter, and you could connect to any WiFi network by running `wifi-menu`.
 
-#### How to make USB drive the default boot option on Macs?
+#### How to make USB drive the default boot option on Mac?
 
 Boot to OS X and open Terminal. Run `diskutil list`. Notice the disk number of your USB drive. Run `sudo bless --setBoot --device=/dev/disk1s1`, where `disk1` contains the correct number of your USB drive.
 
