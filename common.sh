@@ -60,7 +60,7 @@ parse-drive-name() {
 }
 
 mounted-drive-path() {
-  local mounted_partition_path=`cat /etc/mtab | grep "^[^ ]* $1 " | cut -d ' ' -f 1 || :`
+  local mounted_partition_path=`grep "^[^ ]* $1 " /etc/mtab | cut -d ' ' -f 1 || :`
   echo $mounted_partition_path | sed "s/p\?[0-9]$//"
 }
 
@@ -125,7 +125,7 @@ run-actions() {
   local result_dir=$mnt_dir/var/lib/arch-drive/${script_name%.*}
   sudo mkdir -p $result_dir
 
-  local action_names=(`cat "${BASH_SOURCE[1]}" | grep -oP "(?<=^do-).+?(?=\(\))"`)
+  local action_names=(`grep -oP "(?<=^do-).+?(?=\(\))" "${BASH_SOURCE[1]}"`)
   for action_name in ${action_names[@]}; do
     [[ ! -f $result_dir/$action_name ]] || continue
 
