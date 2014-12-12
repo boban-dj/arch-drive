@@ -1,6 +1,24 @@
 # Arch Drive
 
-The aim of this project is to provide the convenient tool for vanilla Arch Linux installation to any USB drive (flash, HDD, etc.), which could be booted from any computer (PC or Mac) and have network access.
+The aim of this project is to provide convenient tool for vanilla Arch Linux installation to any USB drive (flash, HDD, etc.), which could be booted from any computer (PC or Mac) for further installation and usage.
+
+## End-user features
+
+- Creates full-blown operating system on your USB drive.
+- The system installed to drive boots and runs on potentially any PC and Mac.
+- The usage is interactive with the help of menus and confirmations.
+- Allows you to drive backup home directory partition content, reformat drive, than restore home from backup.
+- Detects your country and uncomments the fastest in pacman's mirrorlist.
+- Convenient one-liner is provided for running the tool (see below).
+
+## Technical features
+
+- Filesystem journaling could be disabled during format.
+- Allows to create the system with i686 architecture from system with x86\_64 one.
+- The tool installs Syslinux booloader for booting on BIOS systems and gummiboot for booting on UEFI systems.
+- The pre-bootloader is installed for booting on systems with Secure Boot.
+- The code is separated to scripts, which could be used directly.
+- The Vagrantfile is provided for cross-platform usage.
 
 ## Requirements for running the tool
 
@@ -45,9 +63,9 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
     1. *1) Filesystem journaling* allows you to turn filesystem journaling off during formatting. It could reduce the wearing of flash drive memory and improve the writing speed at the cost of the risk increase of losing some data on abnormal poweroff.
     2. *2) Target architecture* allows you to change the target system architecture on host systems with x86\_64 architectures from x86\_64 to i686, if needed.
 7. If it is a first time you are installing the system on this drive or you would like to restart from scratch, select *3) Format drive*. It will open the submenu with following actions:
-    1. *1) Backup home partition* performs a backup of existing home partition content to `~/Downloads/arch-drive-home` directory.
+    1. *1) Backup home partition* performs a backup of existing home directory partition content to `~/Downloads/arch-drive-home` directory.
     2. *2) Format drive* performs the format process. Please note that this action will destroy all data on this drive, including your home directory partition!
-    3. *3) Restore home partition* allows you to restore the content of home partition from previously created backup in `~/Downloads/arch-drive-home` directory.
+    3. *3) Restore home partition* allows you to restore the content of home directory partition from previously created backup in `~/Downloads/arch-drive-home` directory.
 8. To setup Arch Linux on properly formatted drive select *4) Setup base system*.
 9. Select *5) Quit* to unmount the drive and quit from menu.
 10. Insert your drive with newly installed system to any computer. Power it on or reboot and call the boot menu by pressing a shortcut key that is specific to this particular computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is Option/Alt key. Select your flash drive item from menu and see how its system boots up.
