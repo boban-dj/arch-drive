@@ -12,7 +12,7 @@ run-script umount $drive_path
 disk_size=`sudo parted -s $drive_path unit MB print devices | grep -oP "(?<=^$drive_path \()\d+"`
 (( $disk_size >= 2000 )) || fatal-error "The disk size is less than minimum required size of 2GB."
 
-boot_size=150
+boot_size=260
 root_size=$[disk_size / 3]
 max_root_size=15000
 (( $root_size < $max_root_size )) || root_size=$max_root_size
