@@ -36,6 +36,43 @@ select-settings() {
   done
 }
 
+select-format() {
+  while :; do
+    options=(
+      "Backup home partition"
+      "Format drive"
+      "Restore home partition"
+      Back
+    )
+
+    select-title "Select an action:"
+    select option in "${options[@]}"; do
+      case $option in
+      "Backup home partition")
+        echo
+        run-script backup $drive_path
+        ;;
+
+      "Format drive")
+        echo
+        run-script format $drive_path ${settings[journaling]}
+        ;;
+
+      "Restore home partition")
+        echo
+        run-script restore $drive_path
+        ;;
+
+        Back)
+          return
+          ;;
+      esac
+
+      break
+    done
+  done
+}
+
 while :; do
   settings_text=(
     "journaling: ${settings[journaling]}"
@@ -47,10 +84,8 @@ while :; do
   options=(
     "Change target drive: $drive_name"
     "Change settings: $settings_text"
-    "Backup home partition"
     "Format drive"
-    "Restore home partition"
-    "Setup base system"
+    "Setup system"
     Quit
   )
 
@@ -66,22 +101,11 @@ while :; do
         select-settings
         ;;
 
-      "Backup home partition")
-        echo
-        run-script backup $drive_path
-        ;;
-
       "Format drive")
-        echo
-        run-script format $drive_path ${settings[journaling]}
-        ;;
-      
-      "Restore home partition")
-        echo
-        run-script restore $drive_path
+        select-format
         ;;
 
-      "Setup base system")
+      "Setup system")
         echo
         run-script system $drive_path ${settings[architecture]}
         ;;
