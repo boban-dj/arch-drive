@@ -21,7 +21,8 @@ min_root_size=1500
 
 sudo parted -s -a optimal $drive_path \
   mklabel gpt \
-  mkpart primary fat32 0% ${boot_size}MB \
+  mkpart EFI fat32 0% ${boot_size}MB \
+  set 1 boot on \
   set 1 legacy_boot on \
   mkpart primary ext4 ${boot_size}MB ${root_size}MB \
   mkpart primary ext4 ${root_size}MB 100%
