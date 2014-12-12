@@ -3,8 +3,17 @@
 
 select-drive
 
+target_arch=${2:-$arch}
+
 do-install-packages() {
-  chroot-cmd pacman -S --needed --noconfirm syslinux prebootloader gummiboot intel-ucode
+  packages=(
+    syslinux
+    prebootloader
+    intel-ucode
+  )
+  [[ $target_arch != x86_64 ]] || packages+=(gummiboot)
+
+  chroot-cmd pacman -S --needed --noconfirm ${packages[@]}
 }
 
 do-install-syslinux() {
@@ -19,11 +28,13 @@ do-configure-syslinux() {
 }
 
 do-copy-efi-applications() {
+  [[ $target_arch != x86_64 ]] || return 0
+
   sudo mkdir -p $mnt_dir/boot/EFI/boot
 
   sudo cp $mnt_dir/usr/lib/prebootloader/PreLoader.efi $mnt_dir/boot/EFI/boot/bootx64.efi
   sudo cp $mnt_dir/usr/lib/prebootloader/HashTool.efi $mnt_dir/boot/EFI/boot/
-  sudo cp $mnt_dir/usr/lib/gummiboot/gummiboot*.efi $mnt_dir/boot/EFI/boot/loader.efi
+  sudo cp $mnt_dir/usr/lib/gummiboot/gummibootx64.efi $mnt_dir/boot/EFI/boot/loader.efi
 
   sudo curl -o $mnt_dir/boot/EFI/boot/shellx64-v1.efi https://svn.code.sf.net/p/edk2/code/trunk/edk2/EdkShellBinPkg/FullShell/X64/Shell_Full.efi
   sudo curl -o $mnt_dir/boot/EFI/boot/shellx64.efi https://svn.code.sf.net/p/edk2/code/trunk/edk2/ShellBinPkg/UefiShell/X64/Shell.efi
@@ -33,6 +44,8 @@ do-copy-efi-applications() {
 }
 
 do-configure-gummiboot() {
+  [[ $target_arch != x86_64 ]] || return 0
+
   sudo mkdir -p $mnt_dir/boot/loader/entries
 
   sudo tee $mnt_dir/boot/loader/loader.conf >/dev/null <<EOF
