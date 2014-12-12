@@ -34,20 +34,23 @@ If you are familiar with Vagrant software, you could use it for creating USB dri
 
 To use it, you need to download and install VirtualBox, VirtualBox Oracle VM VirtualBox Extension Pack and Vagrant itself. Please note that VirtualBox does not have support for USB 3.0 currently. In that case you could try to connect your drive using USB 2.0 port or external hub. Also note that provided Vagrant environment is configured to grab all newly connected USB devices during runtime.
 
-## Create Arch Drive with scripts
+## Create Arch Drive
 
 1. Ensure you are running Linux and have established Internet connection.
 2. Open the terminal emulator or virtual terminal.
 3. Insert your USB drive.
 4. Run `bash <(curl https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. If it fails with `No command 'curl' found` than try to run `bash <(wget -O - https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. Of course, you could also download manually or clone this repository and run `./run.sh` from its directory.
 5. Select your drive from menu. You can select another drive later using menu option *1) Change target drive*.
-6. You could change some system creation settings using menu option *2) Change settings*.
-    1. Journaling could be disabled during formatting. It will reduce wearing of flash drive memory and speed up the writing to it at the cost of the risk to lose some data on unexpected poweroff.
-    2. If you are running on x86\_64 architecture, you could change the target system architecture to be x86\_64 or i686.
-7. If it is a first time you are installing the system on this drive, select *4) Format drive* to format it. Please note that this action will destroy all data on this drive, including your home directory partition! You could select *3) Backup home partition* to backup it first to `~/Downloads/arch-drive-home`. After format you could restore the content of your home directory partition from it using option *5) Restore home partition*.
-8. To setup base operating system on formatted drive select *6) Setup base system*.
-9. Select *7) Quit* for unmounting the drive and quitting the menu.
-10. Insert your drive with newly installed system to any computer. Power it on (or reboot) and call the boot menu by pressing a shortcut key that is specific to this computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is Option/Alt key. Select your flash drive from menu and see how it boots up.
+6. Menu option *2) Change settings* opens the submenu that allow you to change following system settings:
+    1. *1) Filesystem journaling* allows you to turn filesystem journaling off during formatting. It could reduce the wearing of flash drive memory and improve the writing speed at the cost of the risk increase of losing some data on abnormal poweroff.
+    2. *2) Target architecture* allows you to change the target system architecture on host systems with x86\_64 architectures from x86\_64 to i686, if needed.
+7. If it is a first time you are installing the system on this drive or you would like to restart from scratch, select *3) Format drive*. It will open the submenu with following actions:
+    1. *1) Backup home partition* performs a backup of existing home partition content to `~/Downloads/arch-drive-home` directory.
+    2. *2) Format drive* performs the format process. Please note that this action will destroy all data on this drive, including your home directory partition!
+    3. *3) Restore home partition* allows you to restore the content of home partition from previously created backup in `~/Downloads/arch-drive-home` directory.
+8. To setup Arch Linux on properly formatted drive select *4) Setup base system*.
+9. Select *5) Quit* to unmount the drive and quit from menu.
+10. Insert your drive with newly installed system to any computer. Power it on or reboot and call the boot menu by pressing a shortcut key that is specific to this particular computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is Option/Alt key. Select your flash drive item from menu and see how its system boots up.
 
 If you encounter any problems, feel free to report an [issue](https://bitbucket.org/sgtpep/arch-drive/issues).
 
