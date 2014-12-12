@@ -5,4 +5,5 @@ select-drive
 
 run-script mount $drive_path
 
-HOME=/root chroot-cmd bash
+shift 1
+HOME=/root chroot-cmd "${@:-bash}"
