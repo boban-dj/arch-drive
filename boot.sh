@@ -28,7 +28,7 @@ do-configure-syslinux() {
 }
 
 do-copy-efi-applications() {
-  [[ $target_arch != x86_64 ]] || return 0
+  [[ $target_arch == x86_64 ]] || return 0
 
   sudo mkdir -p $mnt_dir/boot/EFI/boot
 
@@ -44,7 +44,7 @@ do-copy-efi-applications() {
 }
 
 do-configure-gummiboot() {
-  [[ $target_arch != x86_64 ]] || return 0
+  [[ $target_arch == x86_64 ]] || return 0
 
   sudo mkdir -p $mnt_dir/boot/loader/entries
 
