@@ -56,12 +56,8 @@ do-setup-pacman-keys() {
   pacman-key --init
   pacman-key --populate archlinux
 
-  for proc_path in /proc/[0-9]*; do
-    if [[ \`cat \$proc_path/cmdline\` == gpg-agent* ]]; then
-      kill \${proc_path#/proc/}
-      break
-    fi
-  done
+  pid=\`grep -l "^gpg-agent" /proc/[0-9]*/cmdline | cut -d / -f 3\`
+  kill \$pid
 EOF
 }
 
