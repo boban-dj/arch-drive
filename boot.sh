@@ -4,7 +4,7 @@
 select-drive
 
 do-install-packages() {
-  chroot-cmd pacman -S --needed --noconfirm syslinux prebootloader gummiboot
+  chroot-cmd pacman -S --needed --noconfirm syslinux prebootloader gummiboot intel-ucode
 }
 
 do-install-syslinux() {
@@ -15,6 +15,7 @@ do-configure-syslinux() {
   sudo sed -i "s/^\(TIMEOUT\) .*/\1 10/" $mnt_dir/boot/syslinux/syslinux.cfg                                   
   root_uuid=`partition-uuid 2`
   sudo sed -i "s/^\(\s*APPEND root\)=[^ ]*/\1=UUID=$root_uuid/" $mnt_dir/boot/syslinux/syslinux.cfg
+  sudo sed -i "s|^\(\s*INITRD\) \(\.\./initramfs-linux\.img\)|\1 ../intel-ucode.img,\2|" $mnt_dir/boot/syslinux/syslinux.cfg
 }
 
 do-copy-efi-applications() {
@@ -42,6 +43,7 @@ EOF
   sudo tee $mnt_dir/boot/loader/entries/arch.conf >/dev/null <<EOF
 title Arch Linux
 linux /vmlinuz-linux
+initrd /intel-ucode.img
 initrd /initramfs-linux.img
 options root=UUID=`partition-uuid 2` rw
 EOF
