@@ -5,30 +5,25 @@ select-drive
 detect-drive-name
 
 declare -A settings=(
-  [1-journaling]=on
-  [2-architecture]=$arch
+  [journaling]=on
+  [architecture]=$arch
 )
 
 select-settings() {
   while :; do
-    local options=()
-    for setting_name in "${!settings[@]}"; do
-      [[ $setting_name != 2-architecture || $arch == x86_64 ]] || continue
-
-      option_setting_name=${setting_name#[0-9]-}
-      options+=("${option_setting_name^}: ${settings[$setting_name]}")
-    done
+    options=("Filesystem journaling: ${settings[journaling]}")
+    [[ $arch != x86_64 ]] || options+=("Target architecture: ${settings[architecture]}")
     options+=(Back)
 
     select-title "Select an option to change:"
     select option in "${options[@]}"; do
       case $option in
-        Journaling:*)
-          settings[1-journaling]=`[[ ${settings[1-journaling]} == off ]] && echo on || echo off`
+        "Filesystem journaling:"*)
+          settings[journaling]=`[[ ${settings[journaling]} == off ]] && echo on || echo off`
           ;;
 
-        Architecture:*)
-          settings[2-architecture]=`[[ ${settings[2-architecture]} == x86_64 ]] && echo i686 || echo x86_64`
+        "Target architecture:"*)
+          settings[architecture]=`[[ ${settings[architecture]} == x86_64 ]] && echo i686 || echo x86_64`
           ;;
 
         Back)
@@ -42,10 +37,10 @@ select-settings() {
 }
 
 while :; do
-  settings_text=()
-  for setting_name in "${!settings[@]}"; do
-    settings_text+=("${setting_name#[0-9]-}: ${settings[$setting_name]}")
-  done
+  settings_text=(
+    "journaling: ${settings[journaling]}"
+    "architecture: ${settings[architecture]}"
+  )
   settings_text=`printf ", %s" "${settings_text[@]}"`
   settings_text=${settings_text#, }
 
@@ -78,7 +73,7 @@ while :; do
 
       "Format drive")
         echo
-        run-script format $drive_path ${settings[1-journaling]}
+        run-script format $drive_path ${settings[journaling]}
         ;;
       
       "Restore home partition")
@@ -88,7 +83,7 @@ while :; do
 
       "Setup base system")
         echo
-        run-script system $drive_path ${settings[2-architecture]}
+        run-script system $drive_path ${settings[architecture]}
         ;;
 
       Quit)
