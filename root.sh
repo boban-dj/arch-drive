@@ -28,7 +28,7 @@ do-download-bootstrap() {
 
   if [[ ! -f $bootstrap_path ]]; then
     mkdir -p /tmp/arch-drive/downloads
-    curl -v -o $bootstrap_path $iso_url/$bootstrap_filename
+    curl -\# -o $bootstrap_path $iso_url/$bootstrap_filename
     bootstrap-check-md5
   fi
 }
