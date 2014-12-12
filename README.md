@@ -9,7 +9,8 @@ The aim of this project is to provide convenient tool for vanilla Arch Linux ins
 - The usage is interactive with the help of menus and confirmations.
 - Allows you to drive backup home directory partition content, reformat drive, than restore home from backup.
 - Detects your country and uncomments the fastest in pacman's mirrorlist.
-- Convenient one-liner is provided for running the tool (see below).
+- Enables autoconnection to wired and wireless networks.
+- Includes wifi-menu tool for interactive connection to WiFi networks.
 
 ## Technical features
 
