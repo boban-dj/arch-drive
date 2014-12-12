@@ -94,7 +94,20 @@ do-install-packages() {
 }
 
 do-make-initramfs() {
-  mkinitcpio_hooks=(base udev modconf block filesystems keyboard fsck)
+  sudo tee $mnt_dir/etc/initcpio/install/efi >/dev/null <<EOF
+#!/bin/bash
+build() {
+  cp /boot/vmlinuz{-linux,.efi}
+}
+
+help() {
+  cat <<HELPEOF
+This hook creates a copy of kernel with .efi extension.
+HELPEOF
+}
+EOF
+
+  mkinitcpio_hooks=(base udev modconf block filesystems keyboard fsck efi)
   sudo sed -i "s/^\(HOOKS\)=.*/\1=\"`echo ${mkinitcpio_hooks[@]}`\"/" $mnt_dir/etc/mkinitcpio.conf
 
   chroot-cmd mkinitcpio -p linux
