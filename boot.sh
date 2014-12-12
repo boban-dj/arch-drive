@@ -25,8 +25,8 @@ do-copy-efi-applications() {
   sudo cp $mnt_dir/usr/lib/prebootloader/HashTool.efi $mnt_dir/boot/EFI/boot/
   sudo cp $mnt_dir/usr/lib/gummiboot/gummibootx64.efi $mnt_dir/boot/EFI/boot/loader.efi
 
-  sudo curl -o $mnt_dir/boot/EFI/boot/shellx64_v1.efi https://svn.code.sf.net/p/edk2/code/trunk/edk2/EdkShellBinPkg/FullShell/X64/Shell_Full.efi
-  sudo curl -o $mnt_dir/boot/EFI/boot/shellx64_v2.efi https://svn.code.sf.net/p/edk2/code/trunk/edk2/ShellBinPkg/UefiShell/X64/Shell.efi
+  sudo curl -o $mnt_dir/boot/EFI/boot/shellx64-v1.efi https://svn.code.sf.net/p/edk2/code/trunk/edk2/EdkShellBinPkg/FullShell/X64/Shell_Full.efi
+  sudo curl -o $mnt_dir/boot/EFI/boot/shellx64.efi https://svn.code.sf.net/p/edk2/code/trunk/edk2/ShellBinPkg/UefiShell/X64/Shell.efi
 
   sudo mkdir -p $mnt_dir/boot/EFI/Microsoft/Boot
   sudo cp $mnt_dir/boot/EFI/boot/bootx64.efi $mnt_dir/boot/EFI/Microsoft/Boot/bootmgfw.efi
@@ -55,11 +55,11 @@ options root=UUID=`partition-uuid 2` rw
 EOF
   sudo tee $mnt_dir/boot/loader/entries/uefi-shell-v1.conf >/dev/null <<EOF
 title UEFI Shell v1
-efi /EFI/boot/shellx64_v1.efi
+efi /EFI/boot/shellx64-v1.efi
 EOF
   sudo tee $mnt_dir/boot/loader/entries/uefi-shell-v2.conf >/dev/null <<EOF
 title UEFI Shell v2
-efi /EFI/boot/shellx64_v2.efi
+efi /EFI/boot/shellx64.efi
 EOF
 }
 
