@@ -72,6 +72,16 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 
 If you encounter any problems, feel free to report an [issue](https://bitbucket.org/sgtpep/arch-drive/issues).
 
+## FAQ
+
+### What is the default user/password on created system?
+
+The only user on system is root without a password. You could change it by running `passwd`, or create regular user, add it to sudoers and lock root user later with `passwd -l root`. 
+
+### How to make USB drive the default boot option on Macs?
+
+Boot to OS X and open Terminal. Run `diskutil list`. Notice the disk number of your USB drive. Run `sudo bless --setBoot --device=/dev/disk1s1`, where `disk1` contains the correct number of your USB drive.
+
 ## License and copyright
 
 The project is released under the General Public License (GPL), version 3.
