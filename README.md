@@ -15,7 +15,8 @@ The aim of this project is to provide convenient tool for vanilla Arch Linux ins
 
 - Filesystem journaling could be disabled during format.
 - Allows to create the system with i686 architecture from system with x86\_64 one.
-- The tool installs Syslinux booloader for booting on BIOS systems and gummiboot for booting on UEFI systems.
+- Uses Syslinux booloader for booting on BIOS systems
+- Uses gummiboot booting for booting on UEFI systems.
 - The pre-bootloader is installed for booting on systems with Secure Boot.
 - The code is separated to scripts, which could be used directly.
 - The Vagrantfile is provided for cross-platform usage.
@@ -74,11 +75,15 @@ If you encounter any problems, feel free to report an [issue](https://bitbucket.
 
 ## FAQ
 
-### What is the default user/password on created system?
+#### What is the default user/password on created system?
 
 The only user on system is root without a password. You could change it by running `passwd`, or create regular user, add it to sudoers and lock root user later with `passwd -l root`. 
 
-### How to make USB drive the default boot option on Macs?
+#### How to connect to network on created system?
+
+Run command `ip link` to show the available network interfaces. If you see eth0, you could connect Ethernet cable to your computer and wait few seconds until connection will be autoconfigured. If you see wlan0, your computer has compatible WiFi adapter, and you could connect to any WiFi network by running `wifi-menu`.
+
+#### How to make USB drive the default boot option on Macs?
 
 Boot to OS X and open Terminal. Run `diskutil list`. Notice the disk number of your USB drive. Run `sudo bless --setBoot --device=/dev/disk1s1`, where `disk1` contains the correct number of your USB drive.
 
