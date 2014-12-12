@@ -3,6 +3,8 @@
 
 select-drive
 
+[[ -b $drive_path ]] || fatal-error "The provided path is not a path to valid block device."
+
 block_info=`sudo blkid`
 check-partition() {
   partition_path=`partition-path $1`
