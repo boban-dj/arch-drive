@@ -38,8 +38,8 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 
 1. Ensure you are running Linux and have established Internet connection.
 2. Open the terminal emulator or virtual terminal.
-3. Insert any USB drive.
-4. Run `bash <(curl https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`, if your system has `curl` installed. Or run `bash <(wget -O - https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`, if your system has `wget` installed. Of course, you also could manually download or clone this repository and run `./run.sh` from its directory.
+3. Insert your USB drive.
+4. Run `bash <(curl https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. If it fails with `No command 'curl' found` than try to run `bash <(wget -O - https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. Of course, you could also download manually or clone this repository and run `./run.sh` from its directory.
 5. Select your drive from menu. You can select another drive later using menu option *1) Change target drive*.
 6. You could change some system creation settings using menu option *2) Change settings*.
     1. Journaling could be disabled during formatting. It will reduce wearing of flash drive memory and speed up the writing to it at the cost of the risk to lose some data on unexpected poweroff.
