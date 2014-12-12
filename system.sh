@@ -17,4 +17,4 @@ if [[ `find $mnt_dir -maxdepth 1 -! -name lost+found -a -! -name boot -a -! -nam
 fi
 
 run-script root $drive_path $target_arch
-run-script boot $drive_path
+run-script boot $drive_path $target_arch
