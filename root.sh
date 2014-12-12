@@ -90,14 +90,37 @@ EOF
 }
 
 do-install-packages() {
-  chroot-cmd pacman -S --needed --noconfirm base
+  packages=(
+    base
+    ifplugd wpa_{supplicant,actiond} dialog
+    bash-completion
+  )
+
+  chroot-cmd pacman -S --needed --noconfirm ${packages[@]}
 }
 
 do-make-initramfs() {
-  mkinitcpio_hooks=(base udev modconf block filesystems keyboard fsck)
+  mkinitcpio_hooks=(
+    base
+    udev
+    modconf
+    block
+    filesystems
+    keyboard
+    fsck
+  )
+
   sudo sed -i "s/^\(HOOKS\)=.*/\1=\"`echo ${mkinitcpio_hooks[@]}`\"/" $mnt_dir/etc/mkinitcpio.conf
 
   chroot-cmd mkinitcpio -p linux
+}
+
+do-configure-network() {
+  sudo ln -fs /dev/null $mnt_dir/etc/udev/rules.d/80-net-setup-link.rules
+
+  sudo ln -fs /usr/lib/systemd/system/dhcpcd@.service $mnt_dir/etc/systemd/system/multi-user.target.wants/dhcpcd@eth0.service
+  sudo ln -fs /usr/lib/systemd/system/netctl-ifplugd@.service $mnt_dir/etc/systemd/system/multi-user.target.wants/netctl-ifplugd@eth0.service
+  sudo ln -fs /usr/lib/systemd/system/netctl-auto@.service $mnt_dir/etc/systemd/system/multi-user.target.wants/netctl-auto@wlan0.service
 }
 
 run-actions
