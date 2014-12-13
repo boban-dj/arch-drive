@@ -88,9 +88,9 @@ Run command `ip link` to show the available network interfaces. If you see eth0,
 
 Boot to OS X and open Terminal. Run `diskutil list`. Notice the disk number of your USB drive. Run `sudo bless --setBoot --device=/dev/disk1s1`, where `disk1` contains the correct number of your USB drive.
 
-#### Why UEFI boot fails?
+#### Why is UEFI boot not working?
 
-It could fail, if you are using a rare PC or pre-2008 Mac with 32-bit UEFI implementation. On PC you could try to boot in legacy mode (BIOS emulation). On older Macs you could use the [rEFInd](http://www.rodsbooks.com/refind/) boot manager.
+It will not work, if you have installed the systems with i686 architecture. Also it could fail, if you are using a rare PC or pre-2008 Mac with 32-bit UEFI firmwares. On PC you could try to boot in legacy mode (BIOS emulation). On older Macs you could use the [rEFInd](http://www.rodsbooks.com/refind/) boot manager.
 
 ## License and copyright
 
