@@ -24,6 +24,8 @@ on-error() {
 [[ -n ${HAS_ERROR_TRAP:-} ]] || trap on-error INT ERR EXIT
 export HAS_ERROR_TRAP=1
 
+export LC_ALL=POSIX
+
 install-packages() {
   declare -A packages=(
     [parted]=parted

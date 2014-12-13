@@ -40,7 +40,7 @@ do-unpack-bootstrap() {
 do-configure-locale() {
   locale=en_US.UTF-8                                                                                       
   sudo sed -i "0,/^[#]\(${locale//./\\.}\)/s//\1/" $mnt_dir/etc/locale.gen
-  LC_ALL= chroot-cmd locale-gen
+  chroot-cmd locale-gen
 
   echo LANG=$locale | sudo tee $mnt_dir/etc/locale.conf >/dev/null
 }
