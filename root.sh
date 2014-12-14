@@ -123,8 +123,4 @@ do-configure-network() {
   sudo ln -fs /usr/lib/systemd/system/netctl-auto@.service $mnt_dir/etc/systemd/system/multi-user.target.wants/netctl-auto@wlan0.service
 }
 
-do-enable-ntp() {
-  chroot-cmd timedatectl set-ntp true
-}
-
 run-actions
