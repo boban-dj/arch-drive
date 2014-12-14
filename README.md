@@ -17,8 +17,8 @@ The aim of this project is to provide convenient tool for vanilla Arch Linux ins
 - Filesystem journaling could be disabled during format.
 - Allows to create the system with i686 architecture from system with x86\_64 one.
 - Uses Syslinux bootloader on BIOS systems.
-- Uses gummiboot bootloader on 64-bit UEFI systems.
-- The pre-bootloader is installed for booting on systems with Secure Boot.
+- Uses gummiboot bootloader on UEFI systems.
+- The pre-bootloader is installed for compatibility with Secure Boot.
 - The code is separated to scripts, which could be used directly.
 - The Vagrantfile is provided for cross-platform usage.
 
@@ -62,7 +62,7 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 4. Run `bash <(curl https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. If it fails with `No command 'curl' found` than try to run `bash <(wget -O - https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. Of course, you could also download manually or clone this repository and run `./run.sh` from its directory.
 5. Select your drive from menu. You can select another drive later using menu option *1) Change target drive*.
 6. Menu option *2) Change settings* opens the submenu that allow you to change following system settings:
-    1. *1) Filesystem journaling* allows you to turn filesystem journaling off during formatting. It could reduce the wearing of flash drive memory and improve the writing speed at the cost of the risk increase of losing some data on abnormal poweroff.
+    1. *1) Filesystem journaling* allows you to turn filesystem journaling off during formatting. It could prolong the life of flash drive memory and improve the writing speed at the cost of the risk increase of losing some data on abnormal poweroff.
     2. *2) Target architecture* allows you to change the target system architecture on host systems with x86\_64 architectures from x86\_64 to i686, if needed.
 7. If it is a first time you are installing the system on this drive or you would like to restart from scratch, select *3) Format drive*. It will open the submenu with following actions:
     1. *1) Backup home partition* performs a backup of existing home directory partition content to `~/Downloads/arch-drive-home` directory.
@@ -73,6 +73,11 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 10. Insert your drive with newly installed system to any computer. Power it on or reboot and call the boot menu by pressing a shortcut key that is specific to this particular computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is Option/Alt key. Select your flash drive item from menu and see how its system boots up.
 
 If you encounter any problems, feel free to report an [issue](https://bitbucket.org/sgtpep/arch-drive/issues).
+
+## Caveats
+
+- The systems created with i686 architecture will not boot in UEFI mode. The systems created with x86\_64 architecture will not boot in UEFI mode on rare PCs and pre-2008 Macs with 32-bit UEFI firmwares. In both cases you have following options. On PCs you could try to boot in legacy mode (BIOS-compatibility mode). On older Macs you could use the [rEFInd](http://www.rodsbooks.com/refind/) boot manager.
+- The created system does not have swap partition for prolonging the life of flash drive memory. But this mean that the system memory usage is limited by your phisical RAM size. If you have installed the system to a hard drive, you could create and activate [swap file](https://wiki.archlinux.org/index.php/Swap#Swap_file). Also you could create the swap in RAM using [zram](https://wiki.archlinux.org/index.php/maximizing_performance#Compcache.2FZram_or_zswap) or [zswap](https://wiki.archlinux.org/index.php/Zswap).
 
 ## FAQ
 
@@ -87,10 +92,6 @@ Run command `ip link` to show the available network interfaces. If you see eth0,
 #### How to make USB drive the default boot option on Mac?
 
 Boot to OS X and open Terminal. Run `diskutil list`. Notice the disk number of your USB drive. Run `sudo bless --setBoot --device=/dev/disk1s1`, where `disk1` contains the correct number of your USB drive.
-
-#### Why is UEFI boot not working?
-
-It will not work, if you have installed the systems with i686 architecture. Also it could fail, if you are using a rare PC or pre-2008 Mac with 32-bit UEFI firmwares. On PC you could try to boot in legacy mode (BIOS emulation). On older Macs you could use the [rEFInd](http://www.rodsbooks.com/refind/) boot manager.
 
 ## License and copyright
 
