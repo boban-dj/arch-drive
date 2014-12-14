@@ -34,19 +34,7 @@ If you already have installed one of the supported Linux systems somewhere, you 
 
 ### Boot Live Linux from optical media or USB drive
 
-Download any Live image of the supported Linux systems.
-
-- Arch Linux: https://www.archlinux.org/download/
-- Ubuntu: http://www.ubuntu.com/download/desktop/
-- Debian: http://live.debian.net/cdimage/release/stable+nonfree/
-
-Burn the downloaded .iso file to an optical disk, or create a bootable USB drive from it using appropriate instructions:
-
-- Arch Linux: https://wiki.archlinux.org/index.php/USB\_Flash\_Installation\_Media
-- Ubuntu: http://www.ubuntu.com/download/desktop/
-- Debian: http://live.debian.net/manual/stable/html/live-manual/the-basics.en.html#181
-
-Boot the system from optical disk or USB drive. Establish an Internet connection on it.
+Download any Live image of the supported Linux systems: [Arch Linux](https://www.archlinux.org/download/), [Ubuntu](http://www.ubuntu.com/download/desktop/), [Debian](http://live.debian.net/cdimage/release/stable+nonfree/). Burn the downloaded .iso file to an optical disk, or create a bootable USB drive from it using appropriate instructions: [Arch Linux](https://wiki.archlinux.org/index.php/USB_Flash_Installation_Media), [Ubuntu](http://www.ubuntu.com/download/desktop/), [Debian](http://live.debian.net/manual/stable/html/live-manual/the-basics.en.html#181). Boot the system from optical disk or USB drive. Establish an Internet connection on it.
 
 ### Use Vagrant environment
 
