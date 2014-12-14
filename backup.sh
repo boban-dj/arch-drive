@@ -10,5 +10,8 @@ if [[ ! `find $mnt_dir/home -maxdepth 1 -! -name lost+found | sed 1d` ]]; then
   exit
 fi
 
-mkdir -p ~/Downloads/arch-drive-home
-sudo rsync -a -f ": /.rsync-filter" --delete --exclude=/lost+found --info=progress2 $mnt_dir/home/ ~/Downloads/arch-drive-home
+backup_dir=~/Downloads/arch-drive-home
+mkdir -p $backup_dir
+sudo rsync -a -f ": /.rsync-filter" --delete --exclude=/lost+found --info=progress2 $mnt_dir/home/ $backup_dir
+
+echo "Backing saved to ${backup_dir/#$HOME/\~}."
