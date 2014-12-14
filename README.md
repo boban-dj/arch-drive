@@ -55,8 +55,8 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 7. If it is a first time you are installing the system on this drive or you would like to restart from scratch, select *3) Format drive*. It will open the submenu with following actions:
     1. *1) Backup home partition* performs a backup of existing home directory partition content to `~/Downloads/arch-drive-home` directory.
     2. *2) Format drive* performs the format process. Please note that this action will destroy all data on this drive, including your home directory partition!
-    3. *3) Restore home partition* allows you to restore the content of home directory partition from previously created backup in `~/Downloads/arch-drive-home` directory.
-8. To setup Arch Linux on properly formatted drive select *4) Setup base system*.
+    3. *3) Restore home partition* allows you to restore the content of home directory partition from previously saved backup in `~/Downloads/arch-drive-home` directory.
+8. To setup Arch Linux on properly formatted drive select *4) Setup system*.
 9. Select *5) Quit* to unmount the drive and quit from menu.
 10. Insert your drive with newly installed system to any computer. Power it on or reboot and call the boot menu by pressing a shortcut key that is specific to this particular computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is Option/Alt key. Select your flash drive item from menu and see how its system boots up.
 
@@ -64,22 +64,26 @@ If you encounter any problems, feel free to report an [issue](https://bitbucket.
 
 ## Caveats
 
-- The systems created with i686 architecture will not boot in UEFI mode. The systems created with x86\_64 architecture will not boot in UEFI mode on rare PCs and pre-2008 Macs with 32-bit UEFI firmwares. In both cases you have following options. On PCs you could try to boot in legacy mode (BIOS-compatibility mode). On older Macs you could use the [rEFInd](http://www.rodsbooks.com/refind/) boot manager.
-- The created system does not have swap partition for prolonging the life of flash drive memory. But this mean that the system memory usage is limited by your phisical RAM size. If you have installed the system to a hard drive, you could create and activate [swap file](https://wiki.archlinux.org/index.php/Swap#Swap_file). Also you could create the swap in RAM using [zram](https://wiki.archlinux.org/index.php/maximizing_performance#Compcache.2FZram_or_zswap) or [zswap](https://wiki.archlinux.org/index.php/Zswap).
+- The systems installed with i686 architecture will not boot in UEFI mode. The systems installed with x86\_64 architecture will not boot in UEFI mode on rare PCs and pre-2008 Macs with 32-bit UEFI firmwares. In both cases you have following options. On PCs you could try to boot in legacy mode (BIOS-compatibility mode). On older Macs you could use the [rEFInd](http://www.rodsbooks.com/refind/) boot manager.
+- The installed system does not have swap partition for prolonging the life of flash drive memory. But this mean that the system memory usage is limited by your phisical RAM size. If you have installed the system to a hard drive, you could create and activate [swap file](https://wiki.archlinux.org/index.php/Swap#Swap_file). Also you could create the swap in RAM using [zram](https://wiki.archlinux.org/index.php/maximizing_performance#Compcache.2FZram_or_zswap) or [zswap](https://wiki.archlinux.org/index.php/Zswap).
 
 ## FAQ
 
-#### What is the default user/password on created system?
+#### What is the default user/password on installed system?
 
 The only user on system is root without a password. You could change it by running `passwd`, or create regular user, add it to sudoers and lock root user later with `passwd -l root`. 
 
-#### How to connect to network on created system?
+#### How to connect to network on installed system?
 
 Run command `ip link` to show the available network interfaces. If you see eth0, you could connect Ethernet cable to your computer and wait few seconds until connection will be autoconfigured. If you see wlan0, your computer has compatible WiFi adapter, and you could connect to any WiFi network by running `wifi-menu`.
 
 #### How to make USB drive the default boot option on Mac?
 
 Boot to OS X and open Terminal. Run `diskutil list`. Notice the disk number of your USB drive. Run `sudo bless --setBoot --device=/dev/disk1s1`, where `disk1` contains the correct number of your USB drive.
+
+### How to encrypt data on my drive?
+
+The easiest option to encrypt data or home directory is [eCryptfs](https://wiki.archlinux.org/index.php/ECryptfs). There are other options for [disk encryption](https://wiki.archlinux.org/index.php/Disk_encryption). Please note that full disk encryption requires different partition scheme, which this tool does not support, and it will slow down flash memory operation.
 
 ## License and copyright
 
