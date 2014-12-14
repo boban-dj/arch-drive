@@ -34,6 +34,8 @@ do-copy-efi-applications() {
 
   sudo cp $mnt_dir/usr/lib/prebootloader/PreLoader.efi $mnt_dir/boot/EFI/boot/bootx64.efi
   sudo cp $mnt_dir/usr/lib/prebootloader/HashTool.efi $mnt_dir/boot/EFI/boot/
+
+  sudo rm -r $mnt_dir/boot/EFI/gummiboot
   sudo cp $mnt_dir/usr/lib/gummiboot/gummibootx64.efi $mnt_dir/boot/EFI/boot/loader.efi
 
   sudo curl -o $mnt_dir/boot/EFI/boot/shellx64-v1.efi https://svn.code.sf.net/p/edk2/code/trunk/edk2/EdkShellBinPkg/FullShell/X64/Shell_Full.efi
