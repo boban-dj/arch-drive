@@ -13,7 +13,7 @@ fatal-error() {
 }
 
 [[ $OSTYPE == linux-gnu ]] || fatal-error "This script is intended to be run on Linux."
-[[ $arch =~ ^i[0-9]86|x86_64$ ]] || fatal-error "This script is intended to be run on x86 32-bit or 64-bit architectures."
+[[ $arch =~ ^(i[0-9]86|x86_64)$ ]] || fatal-error "This script is intended to be run on x86 32-bit or 64-bit architectures."
 
 on-error() {
   local status=$?

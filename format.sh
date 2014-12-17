@@ -36,7 +36,7 @@ sudo mkfs.ext4 -L home ${ext4_options:-} `partition-path 3`
 
 if [[ $journaling == on ]]; then
   disk_bus=`udevadm info --query=all --name=${drive_path##*/} | grep -oP "(?<= ID_BUS=).+"`
-  if [[ $disk_bus =~ ^usb|memstick$ ]]; then
+  if [[ $disk_bus =~ ^(usb|memstick)$ ]]; then
     sudo tune2fs -o journal_data_writeback `partition-path 2`
     sudo tune2fs -o journal_data_writeback `partition-path 3`
   fi
