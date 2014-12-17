@@ -1,8 +1,8 @@
 #!/bin/bash
 download() {
-  if which curl >/dev/null; then
+  if which curl &>/dev/null; then
     curl $1
-  elif which wget >/dev/null; then
+  elif which wget &>/dev/null; then
     wget -O - $1
   else
     echo "You need to have curl or wget installed." >&2

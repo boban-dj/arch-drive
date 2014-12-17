@@ -36,12 +36,12 @@ install-packages() {
     [haveged]=haveged
   )
 
-  if ! which ${!packages[@]} >/dev/null; then
-    if which apt-get dpkg >/dev/null; then
+  if ! which ${!packages[@]} &>/dev/null; then
+    if which apt-get dpkg &>/dev/null; then
       read -p "Install required packages? (`echo ${packages[@]}`) [Y/n] "
       [[ $REPLY =~ ^[Yy]*$ ]] && sudo apt-get install -y ${packages[@]} || exit 1
       echo
-    elif which pacman >/dev/null; then
+    elif which pacman &>/dev/null; then
       sudo pacman -S --needed ${packages[@]}
       echo
     else
