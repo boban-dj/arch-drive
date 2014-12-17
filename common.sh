@@ -83,8 +83,10 @@ select-drive() {
   fi
 
   local parted_output=`sudo LC_ALL=POSIX parted -ls 2>&1`
-  local host_drive_path=`mounted-drive-path /`
-  local options=(`echo "$parted_output" | parse-drive-name | grep -v ") $host_drive_path$"`)
+  local exclude_drive_paths=(`mounted-drive-path /`)
+  exclude_drive_paths+=(`echo "$parted_output" | grep -oP "(?<=^Warning: Unable to open ).*(?= read-write )" || :`)
+
+  local options=$(echo "$parted_output" | parse-drive-name | grep -v ") `IFS=\|; echo "${exclude_drive_paths[*]}"`$")
   if [[ -z ${options:-} ]]; then
     [[ -z ${is_quiet:-} ]] || return 0
     fatal-error "No drives were found."
