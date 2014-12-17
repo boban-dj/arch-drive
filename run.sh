@@ -10,7 +10,7 @@ download() {
   fi
 }
 
-if [[ $0 == /dev/fd/* ]]; then
+if [[ -p $0 ]]; then
   mkdir -p /tmp/arch-drive/scripts
   download https://bitbucket.org/sgtpep/arch-drive/get/master.tar.gz | tar -xz -C /tmp/arch-drive/scripts --strip-components=1
 
