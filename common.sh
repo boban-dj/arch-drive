@@ -86,7 +86,7 @@ select-drive() {
   local exclude_drive_paths=(`mounted-drive-path /`)
   exclude_drive_paths+=(`echo "$parted_output" | grep -oP "(?<=^Warning: Unable to open ).*(?= read-write )" || :`)
 
-  local options=($(echo "$parted_output" | parse-drive-name | grep -vP "\) `IFS=\|; echo "${exclude_drive_paths[*]}"`$"))
+  local options=(`echo "$parted_output" | parse-drive-name | grep -vP "\) $(IFS=\|; echo "${exclude_drive_paths[*]}")$"`)
   if [[ -z ${options:-} ]]; then
     [[ -z ${is_quiet:-} ]] || return 0
     fatal-error "No drives were found."
