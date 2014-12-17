@@ -82,7 +82,7 @@ select-drive() {
     return
   fi
 
-  local parted_output=`sudo LC_ALL=POSIX parted -ls 2>&1`
+  local parted_output=`sudo LC_ALL=POSIX parted -ls 2>&1 || :`
   local exclude_drive_paths=(`mounted-drive-path /`)
   exclude_drive_paths+=(`echo "$parted_output" | grep -oP "(?<=^Warning: Unable to open ).*(?= read-write )" || :`)
 
@@ -112,7 +112,8 @@ select-drive() {
 }
 
 detect-drive-name() {
-  drive_name=`sudo LC_ALL=POSIX parted -s $drive_path print 2>/dev/null | parse-drive-name`
+  local parted_output=`sudo LC_ALL=POSIX parted -s $drive_path print 2>/dev/null || :`
+  drive_name=`echo "$parted_output" | parse-drive-name`
 }
 
 partition-path() {
