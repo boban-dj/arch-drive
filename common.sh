@@ -42,7 +42,7 @@ install-packages() {
       [[ $REPLY =~ ^[Yy]*$ ]] && sudo apt-get install -y ${packages[@]} || exit 1
       echo
     elif which pacman &>/dev/null; then
-      [[ `ls /var/lib/pacman/sync` ]] || sudo pacman -Sy
+      [[ -d /var/lib/pacman/sync ]] || sudo pacman -Sy
       sudo pacman -S --needed ${packages[@]}
       echo
     else
