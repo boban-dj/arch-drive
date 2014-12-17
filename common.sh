@@ -59,7 +59,7 @@ run-script() {
 }
 
 parse-drive-name() {
-  grep -A 1 "^Model:" | sed "N; s|^Model: \(.*\) (.*)\nDisk \(/.*\): \(.*\)|\1 (\3) \2|"
+  grep "^\(Model:\|Disk /\)" | sed "N; s|^Model: \(.*\) (.*)\nDisk \(/.*\): \(.*\)|\1 (\3) \2|"
 }
 
 mounted-drive-path() {
