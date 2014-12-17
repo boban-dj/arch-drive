@@ -12,6 +12,8 @@ fi
 
 backup_dir=~/Downloads/arch-drive-home
 mkdir -p $backup_dir
-sudo rsync -a -f ": /.rsync-filter" --delete --info=progress2 $mnt_dir/home/ $backup_dir
+
+[[ ! -f /home/.rsync-excludes ]] || rsync_args="--exclude-from=/home/.rsync-excludes"
+sudo rsync -a ${rsync_args:-} --delete --info=progress2 $mnt_dir/home/ $backup_dir
 
 echo "Backup was saved to ${backup_dir/#$HOME/\~}."
