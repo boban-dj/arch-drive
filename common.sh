@@ -59,7 +59,7 @@ run-script() {
 }
 
 parse-drive-name() {
-  grep "^Model: \|^Disk /" | sed "/^Model: .*/N;s|^Model: \(.*\) (.*)\nDisk \(/.*\): \(.*\)|\1 (\3) \2|"
+  grep -A 1 "^Model:" | sed "N; s|^Model: \(.*\) (.*)\nDisk \(/.*\): \(.*\)|\1 (\3) \2|"
 }
 
 mounted-drive-path() {
@@ -82,8 +82,9 @@ select-drive() {
     return
   fi
 
+  local parted_output=`sudo LC_ALL=POSIX parted -ls 2>&1`
   local host_drive_path=`mounted-drive-path /`
-  local options=(`sudo parted -ls | parse-drive-name | grep -v ") $host_drive_path$"`)
+  local options=(`echo "$parted_output" | parse-drive-name | grep -v ") $host_drive_path$"`)
   if [[ -z ${options:-} ]]; then
     [[ -z ${is_quiet:-} ]] || return 0
     fatal-error "No drives were found."
@@ -109,7 +110,7 @@ select-drive() {
 }
 
 detect-drive-name() {
-  drive_name=`sudo parted -s $drive_path print 2>/dev/null | parse-drive-name`
+  drive_name=`sudo LC_ALL=POSIX parted -s $drive_path print 2>/dev/null | parse-drive-name`
 }
 
 partition-path() {
