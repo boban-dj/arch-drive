@@ -55,10 +55,6 @@ do-setup-pacman-keys() {
   chroot-bash <<EOF
   pacman-key --init
   pacman-key --populate archlinux
-
-  for proc_path in /proc/[0-9]*; do
-    [[ \`cat \$proc_path/cmdline\` != gpg-agent* ]] || kill \${proc_path#/proc/}
-  done
 EOF
 }
 
