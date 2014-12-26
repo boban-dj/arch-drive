@@ -34,6 +34,7 @@ install-packages() {
     [curl]=curl
     [objdump]=binutils
     [haveged]=haveged
+    [lsof]=lsof
   )
 
   if ! which ${!packages[@]} &>/dev/null; then
@@ -142,8 +143,14 @@ run-actions() {
 }
 
 chroot-cmd() {
+  if [[ ! -x /tmp/arch-drive/bin/arch-chroot ]]; then
+    mkdir -p /tmp/arch-drive/bin
+    cp $mnt_dir/bin/arch-chroot /tmp/arch-drive/bin/arch-chroot
+    sed -i "s/^\(.*\) unshare --fork --pid \(chroot .*\)$/\1 \2\n\npids=\`lsof -t -f -- \"\$chrootdir\"\`\n[[ \! \$pids ]] || kill \$pids/" /tmp/arch-drive/bin/arch-chroot
+  fi
+
   [[ $arch =~ ^i[0-9]86$ ]] || objdump -f $mnt_dir/bin/chroot | grep -q "\-x86-64" || local linux_cmd=linux32
-  sudo ${linux_cmd:-} $mnt_dir/bin/arch-chroot $mnt_dir "$@"
+  sudo ${linux_cmd:-} /tmp/arch-drive/bin/arch-chroot $mnt_dir "$@"
 }
 
 chroot-bash() {
