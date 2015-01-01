@@ -1,4 +1,6 @@
 #!/bin/bash
+set -eu -o pipefail
+
 download() {
   if which curl &>/dev/null; then
     curl $1
