@@ -31,8 +31,8 @@ journaling=${2:-on}
 [[ $journaling == on ]] || ext4_options="-O ^has_journal"
 
 sudo mkfs.fat -n boot -F 32 `partition-path 1`
-sudo mkfs.ext4 -L root ${ext4_options:-} `partition-path 2`
-sudo mkfs.ext4 -L home ${ext4_options:-} `partition-path 3`
+sudo mkfs.ext4 -F -L root ${ext4_options:-} `partition-path 2`
+sudo mkfs.ext4 -F -L home ${ext4_options:-} `partition-path 3`
 
 if [[ $journaling == on ]]; then
   disk_bus=`udevadm info --query=all --name=${drive_path##*/} | grep -oP "(?<= ID_BUS=).+"`
