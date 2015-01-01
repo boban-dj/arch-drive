@@ -11,10 +11,10 @@ download() {
 }
 
 if [[ -p $0 ]]; then
-  mkdir -p /tmp/arch-drive/scripts
-  download https://bitbucket.org/sgtpep/arch-drive/get/master.tar.gz | tar -xz -C /tmp/arch-drive/scripts --strip-components=1
+  mkdir -p /tmp/arch-drive/src
+  download https://bitbucket.org/sgtpep/arch-drive/get/master.tar.gz | tar -xz -C /tmp/arch-drive/src --strip-components=1
 
-  exec bash -$- /tmp/arch-drive/scripts/run.sh
+  exec bash -$- /tmp/arch-drive/src/run.sh
 fi
 
 bash -$- "`dirname "${BASH_SOURCE[0]}"`"/menu.sh
