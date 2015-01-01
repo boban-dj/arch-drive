@@ -37,14 +37,6 @@ do-unpack-bootstrap() {
   sudo tar -vxz -f $bootstrap_path -C $mnt_dir --exclude=README --strip-components=1
 }
 
-do-configure-locale() {
-  locale=en_US.UTF-8                                                                                       
-  sudo sed -i "0,/^[#]\(${locale//./\\.}\)/s//\1/" $mnt_dir/etc/locale.gen
-  chroot-cmd locale-gen
-
-  echo LANG=$locale | sudo tee $mnt_dir/etc/locale.conf >/dev/null
-}
-
 do-setup-pacman-keys() {
   if ! pgrep -x haveged >/dev/null; then
     sudo haveged -F &
@@ -93,6 +85,14 @@ do-install-packages() {
   )
 
   chroot-cmd pacman -S --needed --noconfirm ${packages[@]}
+}
+
+do-configure-locale() {
+  locale=en_US.UTF-8
+  sudo sed -i "0,/^[#]\(${locale//./\\.}\)/s//\1/" $mnt_dir/etc/locale.gen
+  chroot-cmd locale-gen
+
+  echo LANG=$locale | sudo tee $mnt_dir/etc/locale.conf >/dev/null
 }
 
 do-make-initramfs() {
