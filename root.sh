@@ -117,9 +117,6 @@ do-configure-network() {
   sudo ln -fs /usr/lib/systemd/system/dhcpcd@.service $mnt_dir/etc/systemd/system/multi-user.target.wants/dhcpcd@eth0.service
   sudo ln -fs /usr/lib/systemd/system/netctl-ifplugd@.service $mnt_dir/etc/systemd/system/multi-user.target.wants/netctl-ifplugd@eth0.service
   sudo ln -fs /usr/lib/systemd/system/netctl-auto@.service $mnt_dir/etc/systemd/system/multi-user.target.wants/netctl-auto@wlan0.service
-
-  profile_paths=`find /etc/netctl -type f -maxdepth 1 2>/dev/null`
-  [[ ! $profile_paths ]] || sudo cp $profile_paths $mnt_dir/etc/netctl/
 }
 
 run-actions
