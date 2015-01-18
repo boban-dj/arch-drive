@@ -71,7 +71,7 @@ do-upgrade-packages() {
 do-configure-fstab() {
   boot_uuid=`partition-uuid 1` root_uuid=`partition-uuid 2` home_uuid=`partition-uuid 3`
   sudo tee $mnt_dir/etc/fstab >/dev/null <<EOF
-UUID=$boot_uuid /boot vfat defaults 0 2
+UUID=$boot_uuid /boot vfat defaults 0 0
 UUID=$root_uuid / ext4 defaults 0 1
 UUID=$home_uuid /home ext4 defaults 0 2
 EOF
