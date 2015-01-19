@@ -7,8 +7,20 @@ target_arch=${2:-$arch}
 bootstrap_path=/tmp/arch-drive/downloads/bootstrap-$target_arch.tar.gz
 
 mirror-url() {
-  local country_code=`curl ipinfo.io/country`
-  curl "https://www.archlinux.org/mirrorlist/?country=$country_code&use_mirror_status=on" | grep -oP -m 1 "(?<=^#Server = )http.+?(?=/\\$)"
+  [[ ! ${mirror_url:-} ]] || echo $mirror_url
+
+  for _ in {1..5}; do
+    local country_code=`curl -f ipinfo.io/country`
+    [[ ! $country_code ]] || break
+  done
+
+  if [[ ! $country_code ]]; then
+    echo "Unable to detect the country, fallback to US." >&2
+    local country_code=US
+  fi
+
+  mirror_url=`curl "https://www.archlinux.org/mirrorlist/?country=$country_code&use_mirror_status=on" | grep -oP -m 1 "(?<=^#Server = )http.+?(?=/\\\\$)"`
+  echo $mirror_url
 }
 
 do-download-bootstrap() {
