@@ -13,7 +13,7 @@ mirror-url() {
   fi
 
   for _ in {1..3}; do
-    local country_code=`curl -f ipinfo.io/country`
+    local country_code=`curl -f http://www.geoiptool.com/ | grep -m 1 -A 1 "Country Code:" | grep -oP "(?<=<span>).+(?= \()" || :`
     [[ ! $country_code ]] || break
   done
 
