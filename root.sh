@@ -12,7 +12,7 @@ mirror-url() {
     return
   fi
 
-  for _ in {1..5}; do
+  for _ in {1..3}; do
     local country_code=`curl -f ipinfo.io/country`
     [[ ! $country_code ]] || break
   done
