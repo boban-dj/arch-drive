@@ -7,7 +7,10 @@ target_arch=${2:-$arch}
 bootstrap_path=/tmp/arch-drive/downloads/bootstrap-$target_arch.tar.gz
 
 mirror-url() {
-  [[ ! ${mirror_url:-} ]] || echo $mirror_url
+  if [[ ${mirror_url:-} ]]; then
+    echo $mirror_url
+    return
+  fi
 
   for _ in {1..5}; do
     local country_code=`curl -f ipinfo.io/country`
