@@ -47,7 +47,7 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 1. Ensure you are running Linux and have established Internet connection.
 2. Open the terminal emulator or switch to virtual terminal.
 3. Connect an external drive to computer, if you wish to install the system on it.
-4. Run `bash <(curl https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. If it fails with `No command 'curl' found`, try to run `bash <(wget -O - https://bitbucket.org/sgtpep/arch-drive/raw/master/run.sh)`. Of course, you could also download this tool manually or clone this repository, and then run `./run.sh` from directory with tool files.
+4. Run `bash <(curl https://raw.githubusercontent.com/sgtpep/arch-drive/master/run.sh)`. If it fails with `No command 'curl' found`, try to run `bash <(wget -O - https://raw.githubusercontent.com/sgtpep/arch-drive/master/run.sh)`. Of course, you could also download this tool manually or clone this repository, and then run `./run.sh` from directory with tool files.
 5. Select target drive from menu. You can select another target drive later using menu option *1) Change target drive*.
 6. Menu option *2) Change settings* opens the submenu that allows you to change following system settings:
     1. *1) Filesystem journaling* allows you to turn filesystem journaling off during formatting. It could prolong the life of flash drive memory (if you are installing on it) and improve the writing speed at the cost of the risk increase of losing some data on abnormal poweroffs.
@@ -60,7 +60,7 @@ To use it, you need to download and install VirtualBox, VirtualBox Oracle VM Vir
 9. Select *5) Quit* to unmount the drive and quit from tool.
 10. To try to boot the installed system ensure the drive is connected to computer. Reboot it or power it on, and call the boot menu by pressing a shortcut key that is specific to this particular computer. It could be Esc, F8, F9, F11, or F12. On Apple Macs it is Option/Alt key. Select your drive item from menu and see how its system boots up.
 
-If you encounter any problems, feel free to report an [issue](https://bitbucket.org/sgtpep/arch-drive/issues).
+If you encounter any problems, feel free to report an [issue](https://github.com/sgtpep/arch-drive/issues).
 
 ## Caveats
 
