@@ -22,6 +22,10 @@ The aim of this project is to provide convenient tool for vanilla Arch Linux ins
 - The tool consists of hackable scripts, which could be used separately.
 - The Vagrantfile is provided for using the tool on any platform.
 
+## Screenshot
+
+![Screenshot](screenshot.png?raw=true)
+
 ## Requirements for running the tool
 
 - Any target drive with capacity of 2GB minimum.
