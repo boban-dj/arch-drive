@@ -1,6 +1,6 @@
 # Arch Drive
 
-The aim of this project is to provide convenient tool for vanilla Arch Linux installation on any external or internal drive (flash, HDD, etc.), so the system installed on external drive becomes portable and bootable on any computer (PC or Mac).
+The aim of this project is to provide convenient tool for installing vanilla Arch Linux on any internal or external drive (flash, HDD, etc.) The latter provides portable system that is bootable on any computer (PC or Mac).
 
 ## End-user features
 
