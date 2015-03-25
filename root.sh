@@ -111,6 +111,9 @@ do-configure-locale() {
 }
 
 do-make-initramfs() {
+  mkinitcpio_modules=(
+    ahci
+  )
   mkinitcpio_hooks=(
     base
     udev
@@ -120,7 +123,7 @@ do-make-initramfs() {
     keyboard
     fsck
   )
-
+  sudo sed -i "s/^\(MODULES\)=.*/\1=\"`echo ${mkinitcpio_modules[@]}`\"/" $mnt_dir/etc/mkinitcpio.conf
   sudo sed -i "s/^\(HOOKS\)=.*/\1=\"`echo ${mkinitcpio_hooks[@]}`\"/" $mnt_dir/etc/mkinitcpio.conf
 
   chroot-cmd mkinitcpio -p linux
